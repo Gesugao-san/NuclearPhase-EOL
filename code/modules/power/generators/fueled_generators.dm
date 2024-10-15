@@ -117,7 +117,6 @@
 	qdel(src)
 
 /obj/machinery/power/generator/port_gen/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	. = ..()
 	gen_shutdown()
 
 /obj/machinery/power/generator/port_gen/proc/gen_shutdown()

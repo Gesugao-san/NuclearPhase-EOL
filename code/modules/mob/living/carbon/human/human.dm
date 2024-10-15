@@ -1429,10 +1429,11 @@ var/global/decl/spawnpoint/limb/spawnpoint_limb
 	new_character.key = key
 	limb_mob = new_character
 	SSjobs.equip_ghostrank(new_character, "Explorer", 0)
-	if(new_character.get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), new_character, "Вы потеряли сознание. Вы либо будете спасены, либо умрете, в случае чего вы сможете возродиться за другого персонажа. Здесь нет призраков, к которым вы привыкли, если вы игрок SS13. Любые формы насилия(гриферство) запрещены и будут строго караться.", "Лимб"), 0)
-	else
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), new_character, "You lost consciousness. You'll either get rescued or die, in which case you can respawn. There are no ghosts like you are used to if you're a SS13 player. Griefing is forbidden here and you will get punished for it.", "Limbo"), 0)
+	spawn(0)
+		if(new_character.get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
+			tgui_alert(new_character, "Вы потеряли сознание. Вы либо будете спасены, либо умрете, в случае чего вы сможете возродиться за другого персонажа. Здесь нет призраков, к которым вы привыкли, если вы игрок SS13. Любые формы насилия(гриферство) запрещены и будут строго караться.", "Лимб")
+		else
+			tgui_alert(new_character, "You lost consciousness. You'll either get rescued or die, in which case you can respawn. There are no ghosts like you are used to if you're a SS13 player. Griefing is forbidden here and you will get punished for it.", "Limbo")
 
 /mob/living/carbon/human/proc/retrieve_from_limb(var/forced = FALSE)
 	if(!limb_mob)
@@ -1444,10 +1445,11 @@ var/global/decl/spawnpoint/limb/spawnpoint_limb
 	qdel(limb_mob)
 	limb_mob = null
 	sound_to(src, sound(null))
-	if(get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), src, "Вы снова в сознании. Помните, что лучше не использовать метаинформацию, которую вы могли получить в лимбе.", "Лимб"), 0)
-	else
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), src, "You're conscious again. Remember that it's best to not use any meta information you may have received in the limbo.", "Limbo"), 0)
+	spawn(0)
+		if(get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
+			tgui_alert(src, "Вы снова в сознании. Помните, что лучше не использовать метаинформацию, которую вы могли получить в лимбе.", "Limb")
+		else
+			tgui_alert(src, "You're conscious again. Remember that it's best to not use any meta information you may have received in the limbo.", "Limbo")
 
 /mob/living/carbon/human/update_weight()
 	. = ..()

@@ -213,7 +213,6 @@
 	minimal_access = list(
 		access_medical,
 		access_medical_equip,
-		access_surgery,
 		access_morgue,
 		access_eva,
 		access_maint_tunnels,
@@ -232,10 +231,6 @@
 		SKILL_MEDICAL = SKILL_ADEPT,
 		SKILL_CHEMISTRY = SKILL_ADEPT,
 		SKILL_ANATOMY = SKILL_ADEPT,
-	)
-	max_skill = list(
-		SKILL_MEDICAL    = SKILL_MAX,
-		SKILL_ANATOMY   = SKILL_MAX
 	)
 
 /datum/job/laboratories/los
@@ -262,7 +257,6 @@
 	minimal_access = list(
 		access_medical,
 		access_medical_equip,
-		access_surgery,
 		access_morgue,
 		access_eva,
 		access_maint_tunnels,
@@ -282,10 +276,6 @@
 		SKILL_ANATOMY = SKILL_BASIC,
 		SKILL_CONSTRUCTION = SKILL_BASIC,
 		SKILL_ELECTRICAL = SKILL_BASIC
-	)
-	max_skill = list(
-		SKILL_MEDICAL    = SKILL_EXPERT,
-		SKILL_ANATOMY   = SKILL_EXPERT
 	)
 
 /datum/job/laboratories/loa

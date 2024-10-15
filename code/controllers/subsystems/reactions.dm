@@ -2,7 +2,7 @@ SUBSYSTEM_DEF(reactions)
 	name = "Reactions"
 	wait = 2 SECONDS
 	priority = SS_PRIORITY_REACTIONS
-	flags = SS_NO_INIT | SS_NO_FIRE
+	flags = SS_NO_INIT
 
 	var/list/fusion_reactions = list()
 

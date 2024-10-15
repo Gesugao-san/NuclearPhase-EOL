@@ -63,11 +63,11 @@ DEFINE_ROBOLIMB_MODEL_ASPECTS(/decl/prosthetics_manufacturer/basic_biomech, biom
 
 /decl/prosthetics_manufacturer/advanced_biomech/get_base_icon(mob/living/carbon/human/owner, masked)
 	if(owner.gender == MALE)
-		if(!masked)
+		if(masked)
 			return 'icons/mob/species/cyberlimbs/biomech_male.dmi'
 		return 'icons/mob/species/human/body_male.dmi'
 	else
-		if(!masked)
+		if(masked)
 			return 'icons/mob/species/cyberlimbs/biomech_female.dmi'
 		return 'icons/mob/species/human/body_female.dmi'
 

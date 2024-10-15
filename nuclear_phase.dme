@@ -1632,7 +1632,6 @@
 #include "code\modules\atmospherics\machinery\components\binary_devices\passive_gate.dm"
 #include "code\modules\atmospherics\machinery\components\binary_devices\pipeturbine.dm"
 #include "code\modules\atmospherics\machinery\components\binary_devices\pump.dm"
-#include "code\modules\atmospherics\machinery\components\binary_devices\relief_valve.dm"
 #include "code\modules\atmospherics\machinery\components\binary_devices\turbine.dm"
 #include "code\modules\atmospherics\machinery\components\binary_devices\valve.dm"
 #include "code\modules\atmospherics\machinery\components\binary_devices\volume_pump.dm"
