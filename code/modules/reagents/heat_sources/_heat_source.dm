@@ -36,7 +36,7 @@
 	icon_state = "coldplate"
 	heater_mode =      HEATER_MODE_COOL
 	max_temperature =  30 CELSIUS
-	min_temperature =  0 CELSIUS
+	min_temperature =  -100 CELSIUS
 
 /obj/machinery/reagent_temperature/Initialize()
 	target_temperature = min_temperature

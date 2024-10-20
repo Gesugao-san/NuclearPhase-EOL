@@ -10,7 +10,7 @@
 #define QDEL_HINT_IFFAIL_FINDREFERENCE 6		//Above but only if gc fails.
 //defines for the gc_destroyed var
 
-#define GC_QUEUE_PREQUEUE 1
+#define GC_QUEUE_FILTER 1
 #define GC_QUEUE_CHECK 2
 #define GC_QUEUE_HARDDELETE 3
 #define GC_QUEUE_COUNT 3 //increase this when adding more steps.

@@ -238,6 +238,7 @@ GLOBAL_GETTER_PROTECTED(job_whitelist, /datum/whitelist/job, new)
 		W.panels -= "\ref[src]"
 
 /client/New()
+	show_lore_entry()
 	var/datum/whitelist/wl = get_global_connect_whitelist()
 	if(!wl.check_entry(ckey(key)))
 		src << link("https://discord.gg/d9qmWD7w35")
@@ -246,6 +247,23 @@ GLOBAL_GETTER_PROTECTED(job_whitelist, /datum/whitelist/job, new)
 	else //хуй был тут
 		is_wl = TRUE
 	. = ..()
+
+/client/proc/show_lore_entry()
+	var/text = "\
+				Год 2207-й. <BR>\
+				Человечество успешно колонизировало Альфу Центавра и Сириус.<BR>\
+				Единственная колония на Сириусе пострадала от неизвестного климатического катаклизма, сделав поверхность совершенно непригодной для жизни из-за температурных условий.<BR>\
+				Несколько подземных сооружений были переоборудованы для длительного выживания в таких условиях.<BR>\
+				ESS « Serenity» - одно из них. Вы - один из его обитателей.<BR>\
+				Варп-перемещение еще не разработано, никто на Альфе Центавра и Соле не знает о случившемся. Вы одни.<BR><BR>\
+				The year is 2207. <BR>\
+				Humanity has successfully colonized Alpha Centauri and Sirius.<BR>\
+				The only colony in Sirius was hit by an unknown climate cataclysm, rendering the surface completely uninhabitable from temperature conditions.<BR>\
+				Several underground facilities were retrofitted to allow long-term survival in such conditions.<BR>\
+				ESS ‘Serenity’ is one of them. You are one of its inhabitants.<BR>\
+				Faster-Than-Light warp travel isn’t developed yet, no one in Alpha Centauri or Sol knows about the calamity. You are alone.<BR>\
+				"
+	show_browser(src, text, "window=loreentry;size=900x480")
 
 /decl/whitelist/medical_low
 /decl/whitelist/medical_high

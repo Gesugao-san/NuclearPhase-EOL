@@ -42,3 +42,19 @@
 			return TRUE
 
 	return FALSE
+
+// detects open clothing and such
+/obj/machinery/detector/radiation_intoxication_uniform
+	name = "CRIA detector"
+	desc = "An advanced Clothing-Radiation-Intoxication-Access detector."
+
+/obj/machinery/detector/radiation_intoxication_uniform/should_alarm(mob/M)
+	if(HAS_STATUS(M, STAT_DROWSY) || HAS_STATUS(M, STAT_DRUGGY))
+		return TRUE
+
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+		if(C.radiation > 3000) //that's already a hellish dose
+			return TRUE
+
+	return FALSE

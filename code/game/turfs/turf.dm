@@ -96,6 +96,9 @@
 	if(flooded && !density)
 		make_flooded(TRUE)
 
+	var/area/new_area = get_area(src)
+	new_area.all_turfs |= src
+
 	return INITIALIZE_HINT_NORMAL
 
 /turf/examine(mob/user, distance, infix, suffix)

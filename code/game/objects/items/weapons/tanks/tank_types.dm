@@ -58,6 +58,17 @@
 /obj/item/tank/hydrogen/empty
 	starting_pressure = list()
 
+/obj/item/tank/xenon
+	name = "xenon tank"
+	desc = "Contains xenon, an inert gas used in lasers."
+	icon = 'icons/obj/items/tanks/tank_greyscaled.dmi'
+	color = "#7f2e87"
+	gauge_icon = null
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
+	slot_flags = null
+	starting_pressure = list(/decl/material/gas/xenon = 3*ONE_ATMOSPHERE)
+	weight = 4
+
 /obj/item/tank/propfuel
 	name = "rocket fuel tank"
 	desc = "Contains highly flammable rocket fuel."

@@ -175,3 +175,27 @@
 /area/turbolift/serenity/mining/a1
 	lift_floor_label = "1"
 	lift_floor_name = "Mining; Ore Processing"
+
+/area/turbolift/serenity/labs
+	name = "Personnel Elevator"
+
+/area/turbolift/serenity/labs/a3
+	lift_floor_label = "3"
+	lift_floor_name = "Laboratories Entrance"
+
+/area/turbolift/serenity/labs/a2
+
+/area/turbolift/serenity/labs/a1
+	lift_floor_label = "1"
+	lift_floor_name = "Main Laboratories"
+
+/area/turbolift/serenity/charlie
+	name = "Personnel Elevator"
+
+/area/turbolift/serenity/charlie/a1
+	lift_floor_label = "1"
+	lift_floor_name = "Lab Charlie"
+
+/area/turbolift/serenity/charlie/a2
+	lift_floor_label = "2"
+	lift_floor_name = "Main Laboratories"

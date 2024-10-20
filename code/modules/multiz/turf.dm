@@ -67,6 +67,7 @@
 	icon_state = ""
 	density = FALSE
 	pathweight = 100000 //Seriously, don't try and path over this one numbnuts
+	movement_delay = 2
 	z_flags = ZM_MIMIC_DEFAULTS | ZM_MIMIC_OVERWRITE | ZM_MIMIC_NO_AO | ZM_ALLOW_ATMOS
 	turf_flags = TURF_FLAG_BACKGROUND
 

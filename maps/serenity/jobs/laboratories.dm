@@ -23,7 +23,8 @@
 		access_research,
 		access_xenobiology,
 		access_xenoarch,
-		access_hydroponics
+		access_hydroponics,
+		access_lab_alpha
 	)
 	minimal_access = list(
 		access_tox,
@@ -31,7 +32,8 @@
 		access_research,
 		access_xenoarch,
 		access_xenobiology,
-		access_hydroponics
+		access_hydroponics,
+		access_lab_alpha
 	)
 
 /datum/job/laboratories/lod
@@ -43,6 +45,9 @@
 	skill_points = 45
 	outfit_type = /decl/hierarchy/outfit/job/science/rd
 	access = list(
+		access_medical,
+		access_medical_equip,
+		access_surgery,
 		access_rd,
 		access_bridge,
 		access_tox,
@@ -61,7 +66,10 @@
 		access_tcomsat,
 		access_gateway,
 		access_xenoarch,
-		access_network
+		access_network,
+		access_lab_alpha,
+		access_lab_bravo,
+		access_lab_charlie
 	)
 	minimal_access = list(access_rd,
 		access_bridge,
@@ -81,9 +89,20 @@
 		access_tcomsat,
 		access_gateway,
 		access_xenoarch,
-		access_network
+		access_network,
+		access_lab_alpha,
+		access_lab_bravo,
+		access_lab_charlie
 	)
 	required_whitelists = list(/decl/whitelist/command_executive, /decl/whitelist/medical_high)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_EXPERT,
+		SKILL_LITERACY    = SKILL_ADEPT,
+		SKILL_FINANCE = SKILL_ADEPT,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_MECH = SKILL_BASIC,
+		SKILL_ELECTRICAL = SKILL_BASIC
+	)
 
 /datum/job/laboratories/load
 	title = "Laboratory Operations Assistant Director"
@@ -94,6 +113,9 @@
 	skill_points = 40
 	outfit_type = /decl/hierarchy/outfit/job/science/rd
 	access = list(
+		access_medical,
+		access_medical_equip,
+		access_surgery,
 		access_rd,
 		access_bridge,
 		access_tox,
@@ -112,7 +134,9 @@
 		access_tcomsat,
 		access_gateway,
 		access_xenoarch,
-		access_network
+		access_network,
+		access_lab_alpha,
+		access_lab_bravo
 	)
 	minimal_access = list(access_rd,
 		access_bridge,
@@ -132,9 +156,19 @@
 		access_tcomsat,
 		access_gateway,
 		access_xenoarch,
-		access_network
+		access_network,
+		access_lab_alpha,
+		access_lab_bravo
 	)
 	required_whitelists = list(/decl/whitelist/medical_high)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_ADEPT,
+		SKILL_LITERACY    = SKILL_ADEPT,
+		SKILL_FINANCE = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_MECH = SKILL_BASIC,
+		SKILL_ELECTRICAL = SKILL_BASIC
+	)
 
 /datum/job/laboratories/pps
 	title = "Particle Physics Specialist"
@@ -143,6 +177,16 @@
 	spawn_positions = 3
 	outfit_type = /decl/hierarchy/outfit/job/science/scientist
 	required_whitelists = list(/decl/whitelist/engineering_high)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_ADEPT,
+		SKILL_LITERACY    = SKILL_ADEPT,
+		SKILL_FINANCE = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_MECH = SKILL_BASIC,
+		SKILL_ELECTRICAL = SKILL_ADEPT,
+		SKILL_CHEMISTRY = SKILL_ADEPT,
+		SKILL_ATMOS = SKILL_EXPERT
+	)
 
 /datum/job/laboratories/ggs
 	title = "General Genetics Specialist"
@@ -161,17 +205,38 @@
 		access_eva,
 		access_maint_tunnels,
 		access_external_airlocks,
-		access_psychiatrist
+		access_psychiatrist,
+		access_lab_alpha,
+		access_lab_bravo,
+		access_lab_charlie
 	)
 	minimal_access = list(
 		access_medical,
 		access_medical_equip,
+		access_surgery,
 		access_morgue,
 		access_eva,
 		access_maint_tunnels,
-		access_external_airlocks
+		access_external_airlocks,
+		access_lab_alpha,
+		access_lab_bravo,
+		access_lab_charlie
 	)
 	required_whitelists = list(/decl/whitelist/medical_high)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_ADEPT,
+		SKILL_LITERACY    = SKILL_ADEPT,
+		SKILL_FINANCE = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_MECH = SKILL_BASIC,
+		SKILL_MEDICAL = SKILL_ADEPT,
+		SKILL_CHEMISTRY = SKILL_ADEPT,
+		SKILL_ANATOMY = SKILL_ADEPT,
+	)
+	max_skill = list(
+		SKILL_MEDICAL    = SKILL_MAX,
+		SKILL_ANATOMY   = SKILL_MAX
+	)
 
 /datum/job/laboratories/los
 	title = "Laboratory Operations Specialist"
@@ -190,17 +255,38 @@
 		access_eva,
 		access_maint_tunnels,
 		access_external_airlocks,
-		access_psychiatrist
+		access_psychiatrist,
+		access_lab_alpha,
+		access_lab_bravo
 	)
 	minimal_access = list(
 		access_medical,
 		access_medical_equip,
+		access_surgery,
 		access_morgue,
 		access_eva,
 		access_maint_tunnels,
-		access_external_airlocks
+		access_external_airlocks,
+		access_lab_alpha,
+		access_lab_bravo
 	)
 	required_whitelists = list(/decl/whitelist/medical_low, /decl/whitelist/engineering_low)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_ADEPT,
+		SKILL_LITERACY    = SKILL_ADEPT,
+		SKILL_FINANCE = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_MECH = SKILL_BASIC,
+		SKILL_MEDICAL = SKILL_BASIC,
+		SKILL_CHEMISTRY = SKILL_ADEPT,
+		SKILL_ANATOMY = SKILL_BASIC,
+		SKILL_CONSTRUCTION = SKILL_BASIC,
+		SKILL_ELECTRICAL = SKILL_BASIC
+	)
+	max_skill = list(
+		SKILL_MEDICAL    = SKILL_EXPERT,
+		SKILL_ANATOMY   = SKILL_EXPERT
+	)
 
 /datum/job/laboratories/loa
 	title = "Laboratory Operations Assistant"
@@ -218,7 +304,8 @@
 		access_eva,
 		access_maint_tunnels,
 		access_external_airlocks,
-		access_psychiatrist
+		access_psychiatrist,
+		access_lab_alpha
 	)
 	minimal_access = list(
 		access_medical,
@@ -226,5 +313,14 @@
 		access_morgue,
 		access_eva,
 		access_maint_tunnels,
-		access_external_airlocks
+		access_external_airlocks,
+		access_lab_alpha
+	)
+	min_skill = list(
+		SKILL_SCIENCE = SKILL_BASIC,
+		SKILL_LITERACY    = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_BASIC,
+		SKILL_MEDICAL = SKILL_BASIC,
+		SKILL_CHEMISTRY = SKILL_BASIC,
+		SKILL_ANATOMY = SKILL_BASIC
 	)

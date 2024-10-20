@@ -247,8 +247,7 @@
 	animal_heal = 4
 	apply_sounds = list('sound/effects/ointment.ogg')
 	matter = list(
-		/decl/material/solid/plastic = MATTER_AMOUNT_SECONDARY,
-		/decl/material/liquid/antibiotics/amicile = 30
+		/decl/material/solid/plastic = MATTER_AMOUNT_SECONDARY
 	)
 
 /obj/item/stack/medical/ointment/attack(var/mob/living/carbon/M, var/mob/user)

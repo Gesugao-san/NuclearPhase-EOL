@@ -319,6 +319,7 @@
 		if(srec_dose < 160)
 			change_eye_color(COLOR_GRAY)
 		adjustHalLoss(-150)
+		add_chemical_effect(CE_PAINKILLER, 150)
 		adjust_stamina(srec_dose * -0.05 / inhibition_factor)
 		to_chat_cooldown(src, SPAN_WARNING("You feel weak."), "srecweak", rand(4 MINUTES, 10 MINUTES * inhibition_factor))
 	else
@@ -328,6 +329,7 @@
 			emote("cough")
 		bodytemperature += rand(1.3, 1.4) / inhibition_factor
 		adjust_immunity(-1 / inhibition_factor)
+		add_chemical_effect(CE_PAINKILLER, 300)
 		if(srec_dose < 160)
 			to_chat_cooldown(src, SPAN_WARNING("You feel very sick."), "srecsick", rand(4 MINUTES, 10 MINUTES * inhibition_factor))
 	else
@@ -336,6 +338,7 @@
 		adjust_immunity(-10 / inhibition_factor)
 		change_eye_color(COLOR_GREEN_GRAY)
 		adjustHalLoss(-400)
+		add_chemical_effect(CE_PAINKILLER, 400)
 		to_chat_cooldown(src, SPAN_DANGER(pick("Tiny crystals crawl under your skin.", "You feel something churning up inside.")), "srecsick", rand(4 MINUTES, 10 MINUTES * inhibition_factor))
 	if(srec_dose > 1000) //we explodeee
 		var/turf/T = get_turf(src)

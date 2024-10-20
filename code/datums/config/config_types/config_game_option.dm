@@ -65,13 +65,13 @@
 
 /decl/config/num/movement_min_sprint_cost
 	uid = "minimum_sprint_cost"
-	default_value = 0.8
+	default_value = 10
 	rounding = 0.01
 	desc = "Value used for expending stamina during sprinting."
 
 /decl/config/num/movement_skill_sprint_cost_range
 	uid = "skill_sprint_cost_range"
-	default_value = 0.8
+	default_value = 15
 	rounding = 0.01
 	desc = "Determines the severity of athletics skill when applied to stamina cost."
 

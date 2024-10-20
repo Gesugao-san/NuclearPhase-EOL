@@ -11,7 +11,8 @@ LINEN BINS
 	icon_state = ICON_STATE_WORLD
 	item_state = "bedsheet"
 	randpixel = 0
-	slot_flags = SLOT_BACK
+	slot_flags = SLOT_BACK | SLOT_OVER_BODY
+	temperature_coefficient = CLOTHING_TEMP_COEF_HIGH
 	layer = BASE_ABOVE_OBJ_LAYER
 	throwforce = 1
 	throw_speed = 1

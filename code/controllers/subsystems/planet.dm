@@ -21,14 +21,13 @@ SUBSYSTEM_DEF(planet)
 /datum/controller/subsystem/planet/fire(resumed)
 	//first of all, handle the heating of areas
 	for(var/area/serenity/A in interpolating_areas)
-		var/turf/T = pick(A.contents)
+		var/turf/T = pick(A.all_turfs)
 		if(istype(T, /turf/simulated/wall))
 			continue //yeah we'd like to not heat up a wall
 		var/datum/gas_mixture/environment = T.return_air()
 		var/temperature_delta = using_map.exterior_atmosphere.temperature - environment.temperature
 		environment.temperature += temperature_delta * A.temperature_interpolation_coefficient * TEMPERATURE_INTERPOLATION_MOD
 		environment.update_values()
-#undef TEMPERATURE_INTERPOLATION_MOD
 
 	//weather next
 	weather_volatility += weather_volatility_mod
@@ -37,3 +36,4 @@ SUBSYSTEM_DEF(planet)
 			using_map.weather_system.lightning_strike()
 			weather_volatility -= 3
 	using_map.weather_system.favorable_wind_speed = clamp(27 * weather_volatility, 0, 370)
+#undef TEMPERATURE_INTERPOLATION_MOD

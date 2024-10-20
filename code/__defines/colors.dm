@@ -92,6 +92,9 @@
 #define COLOR_CRYSTAL          "#00c8a5"
 #define COLOR_ASTEROID_ROCK    "#735555"
 #define COLOR_DIAMOND          "#d8d4ea"
+#define COLOR_SREC             "#6d1839"
+#define COLOR_SREC_ACTIVE      "#be1a67"
+#define COLOR_SREC_ALPHA       "#aa5188"
 
 #define COLOR_LIQUID_HELIUM	   "#bd9ae0"
 

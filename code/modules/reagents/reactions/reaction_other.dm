@@ -75,3 +75,39 @@
 	required_reagents = list(/decl/material/liquid/plasticide = 1, /decl/material/liquid/water = 3)
 	result_amount = 5
 	mix_message = "The solution thickens and takes on a glossy sheen."
+
+/decl/chemical_reaction/waste_vitrification
+	name = "Actinide Vitrification"
+	result = /decl/material/solid/metal/nuclear_waste/actinides/vitrified
+	required_reagents = list(/decl/material/solid/metal/nuclear_waste/actinides = 1, /decl/material/solid/silicon = 1)
+	result_amount = 2
+	minimum_temperature = 1400
+	mix_message = "The solution thickens and takes on a glossy sheen."
+
+/decl/chemical_reaction/srec_reformation
+	name = "SREC Reformation"
+	result = /decl/material/solid/static_crystal
+	required_reagents = list(/decl/material/solid/static_crystal/inhibited = 1, /decl/material/solid/silicon = 1)
+	result_amount = 1
+	minimum_temperature = T0C
+	mix_message = "The dust flashes into tiny crystals."
+
+/decl/chemical_reaction/srec_reformation/on_reaction(var/datum/reagents/holder, var/created_volume, var/reaction_flags)
+	..()
+	var/location = get_turf(holder.get_reaction_loc())
+	if(location)
+		var/datum/effect/effect/system/smoke_spread/chem/S = new /datum/effect/effect/system/smoke_spread/chem
+		S.attach(location)
+		S.set_up(holder, created_volume, 0, location)
+		playsound(location, 'sound/effects/smoke.ogg', 50, 1, -3)
+		spawn(0)
+			S.start()
+	holder.clear_reagents()
+
+/decl/chemical_reaction/srec_inhibitor
+	name = "SREC Inhibitor"
+	result = /decl/material/liquid/srec_inhibitor
+	required_reagents = list(/decl/material/solid/static_crystal/inhibited = 1, /decl/material/liquid/separated_blood = 10)
+	result_amount = 10
+	minimum_temperature = T0C
+	mix_message = "The solution bubbles and gets thicker."

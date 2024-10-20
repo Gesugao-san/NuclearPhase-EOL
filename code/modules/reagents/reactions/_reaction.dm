@@ -15,6 +15,14 @@
 	var/lore_text
 	var/mechanics_text
 
+	var/activation_energy = 0 // At which energy does the reaction begin to happen?
+	var/thermal_delta // How much of an energy change happens per reaction
+
+/decl/chemical_reaction/Initialize()
+	. = ..()
+	if(!activation_energy)
+		activation_energy = (minimum_temperature * 29.1) + 1000
+
 /decl/chemical_reaction/proc/can_happen(var/datum/reagents/holder)
 	//check that all the required reagents are present
 	if(!holder.has_all_reagents(required_reagents))

@@ -48,8 +48,8 @@
 #define RECEIVER_STRONG_WIRELESS			 2
 #define RECEIVER_BROADCASTER				 3
 
-#define NETWORK_BASE_BROADCAST_STRENGTH 		25
-#define NETWORK_INTERNET_CONNECTION_STRENGTH	25
+#define NETWORK_BASE_BROADCAST_STRENGTH 		75
+#define NETWORK_INTERNET_CONNECTION_STRENGTH	75
 #define NETWORK_WIRED_CONNECTION_STRENGTH		100
 
 // Caps for network logging. Less than 10 would make logging useless anyway, more than 500 may make the log browser too laggy. Defaults to 100 unless user changes it.

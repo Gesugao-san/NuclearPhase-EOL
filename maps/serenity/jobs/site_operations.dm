@@ -41,11 +41,9 @@
 	selection_color = "#a52041"
 	outfit_type = /decl/hierarchy/outfit/job/sdd
 	skill_points = 35
-	max_skill = list(
-		SKILL_CONSTRUCTION = SKILL_MAX,
-	    SKILL_ELECTRICAL   = SKILL_MAX,
-	    SKILL_ATMOS        = SKILL_MAX,
-	    SKILL_ENGINES      = SKILL_MAX
+	min_skill = list(
+		SKILL_LITERACY = SKILL_ADEPT,
+		SKILL_CONSTRUCTION = SKILL_BASIC,
 	)
 	required_whitelists = list(/decl/whitelist/command_executive)
 
@@ -72,6 +70,15 @@
 		access_emergency_storage
 	)
 	skill_points = 35
+	min_skill = list(
+		SKILL_LITERACY = SKILL_ADEPT,
+		SKILL_CONSTRUCTION = SKILL_ADEPT,
+		SKILL_DEVICES = SKILL_ADEPT,
+		SKILL_FITNESS  = SKILL_BASIC,
+	    SKILL_STRENGTH = SKILL_BASIC,
+		SKILL_ELECTRICAL = SKILL_BASIC,
+		SKILL_ATMOS = SKILL_BASIC
+	)
 
 /datum/job/site_operations/janitor
 	title = "Sanitation Specialist"
@@ -106,8 +113,7 @@
 		/datum/mil_rank/civ/civ
 		)
 	min_skill = list(
-		SKILL_LITERACY = SKILL_ADEPT,
-		SKILL_FITNESS  = SKILL_BASIC
+		SKILL_LITERACY = SKILL_ADEPT
 	)
 	event_categories = list(ASSIGNMENT_JANITOR)
 	skill_points = 22
@@ -136,5 +142,29 @@
 		SKILL_COOKING   = SKILL_ADEPT,
 	    SKILL_BOTANY    = SKILL_BASIC,
 	    SKILL_CHEMISTRY = SKILL_BASIC
+	)
+	skill_points = 27
+
+/datum/job/site_operations/logistician
+	title = "Logistics Officer"
+	total_positions = 3
+	spawn_positions = 3
+	access = list(
+		access_cargo
+	)
+	alt_titles = list("Logistician", "Logistics Specialist", "Logistics Coordinator")
+	outfit_type = /decl/hierarchy/outfit/job/service/chef
+	allowed_branches = list(
+		/datum/mil_branch/civ
+	)
+	allowed_ranks = list(
+		/datum/mil_rank/civ/civ
+		)
+	min_skill = list(
+		SKILL_LITERACY  = SKILL_ADEPT,
+		SKILL_FINANCE   = SKILL_ADEPT,
+	    SKILL_STRENGTH = SKILL_BASIC,
+		SKILL_FITNESS = SKILL_BASIC,
+		SKILL_DEVICES = SKILL_BASIC
 	)
 	skill_points = 27

@@ -44,7 +44,7 @@
 	neutron_absorption = 60
 	moderation_target = 3000
 	fission_heat = 35000
-	fission_energy = 21080100000
+	fission_energy = 21080100000.0
 	fission_neutrons = 2.45
 
 /decl/material/solid/metal/depleted_uranium
@@ -83,7 +83,7 @@
 		/decl/material/gas/xenon = 0.05
 	)
 	fission_heat = 35000
-	fission_energy = 81080100000
+	fission_energy = 81080100000.0
 	fission_neutrons = 0.001
 	neutron_absorption = 950
 	neutron_production = 900
@@ -115,7 +115,7 @@
 			INTERACTION_FISSION = 348
 		)
 	)
-	fission_energy = 13917914000
+	fission_energy = 13917914000.0
 	fission_neutrons = 1.5
 	neutron_cross_section = 4 // Difficult to use as fuel.
 	fission_products = list(
@@ -157,7 +157,7 @@
 	neutron_production = 1200
 	neutron_absorption = 30
 	fission_heat = 60000
-	fission_energy = 83917914000
+	fission_energy = 83917914000.0
 	fission_neutrons = 3
 
 /decl/material/solid/metal/plutonium/affect_blood(mob/living/carbon/human/M, removed, datum/reagents/holder)
@@ -189,7 +189,7 @@
 	uid = "nuclear_waste_tu"
 	radioactivity = 37
 	fission_neutrons = 0.2
-	fission_energy = 51080100000
+	fission_energy = 51080100000.0
 	color = "#d8881e"
 	neutron_interactions = list(
 		"slow" = list(
@@ -213,7 +213,7 @@
 	uid = "nuclear_waste_hl"
 	radioactivity = 42
 	fission_neutrons = 0.01
-	fission_energy = 15080100000
+	fission_energy = 15080100000.0
 	color = "#704d1f"
 	neutron_interactions = list(
 		"slow" = list(
@@ -235,6 +235,7 @@
 // Bring the nuclear caskets
 /decl/material/solid/metal/nuclear_waste/actinides
 	name = "nuclear actinides"
+	uid = "nuclear_waste_act"
 	radioactivity = 11
 	color = "#4b371e"
 	neutron_interactions = list(
@@ -255,3 +256,10 @@
 		M.apply_damage(1.5 * volume, IRRADIATE)
 	else
 		M.apply_damage(0.1 * volume, IRRADIATE)
+
+// Made when actinides are heated up in presence of silicon.
+/decl/material/solid/metal/nuclear_waste/actinides/vitrified
+	name = "vitrified nuclear waste"
+	lore_text = "High-actinide nuclear waste that has been made into a glass."
+	radioactivity = 0.6
+	color = "#2c2823"

@@ -209,3 +209,20 @@
 
 /obj/item/organ/internal/brain/get_mechanical_assisted_descriptor()
 	return "machine-interface [name]"
+
+/obj/item/organ/internal/brain/scan(advanced)
+	if(advanced)
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				return "No abnormal findings. Brain structures are intact, with normal function and perfusion. No evidence of trauma, ischemia, or lesions."
+			if(0.1 to 0.4)
+				return "Mild cerebral injury. Localized areas of neuronal loss and tissue atrophy observed. Cognitive and motor functions may be moderately impaired depending on the affected region."
+			if(0.4 to 0.8)
+				return "Severe cerebral injury. Widespread neuronal death, with significant atrophy and tissue damage. Major deficits in cognition, motor control, and sensory processing are likely."
+			if(0.8 to 1)
+				return "Critical cerebral injury. Extensive and irreversible damage across most brain regions. Minimal to no higher brain functions remaining, with probable loss of consciousness and vital autonomic functions."
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe cerebral injury."
+		else
+			return "No major cerebral damage."

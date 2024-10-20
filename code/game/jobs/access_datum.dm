@@ -376,6 +376,24 @@ var/global/const/access_heads = "ACCESS_HEADS" //67
 	desc = "Command"
 	region = ACCESS_REGION_COMMAND
 
+var/global/const/access_lab_alpha = "ACCESS_LAB_ALPHA" //68
+/datum/access/lab_alpha
+	id = access_lab_alpha
+	desc = "Lab Alpha"
+	region = ACCESS_REGION_RESEARCH
+
+var/global/const/access_lab_bravo = "ACCESS_LAB_BRAVO" //69
+/datum/access/lab_bravo
+	id = access_lab_bravo
+	desc = "Lab Bravo"
+	region = ACCESS_REGION_RESEARCH
+
+var/global/const/access_lab_charlie = "ACCESS_LAB_CHARLIE" //70
+/datum/access/lab_charlie
+	id = access_lab_charlie
+	desc = "Lab Charlie"
+	region = ACCESS_REGION_RESEARCH
+
 /******************
 * Central Command *
 ******************/

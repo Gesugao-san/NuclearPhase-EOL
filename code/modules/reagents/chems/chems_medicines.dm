@@ -276,7 +276,7 @@
 
 /decl/material/liquid/srec_inhibitor
 	name = "SREC inhibitor"
-	lore_text = "An expensive SREC infection growth inhibitor."
+	lore_text = "An expensive SREC infection growth inhibitor. Works by locally blocking nervous system signals near crystal formations."
 	uid = "SREC_inhibitor"
 	metabolism = 0.005
 	overdose = 50

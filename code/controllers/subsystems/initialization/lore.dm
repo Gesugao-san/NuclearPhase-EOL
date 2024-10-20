@@ -27,6 +27,8 @@ SUBSYSTEM_DEF(lore)
 	var/list/languages_by_key
 	var/list/languages_by_name
 
+	var/list/possible_random_notes = list()
+
 /datum/controller/subsystem/lore/Initialize()
 
 	var/list/all_cultural_decls = decls_repository.get_decls_of_subtype(/decl/cultural_info)
@@ -44,6 +46,8 @@ SUBSYSTEM_DEF(lore)
 		if(title)
 			dreams |= "\an ["\improper [title]"]"
 			credits_nouns |= uppertext("the [title]")
+
+	possible_random_notes = subtypesof(/obj/item/paper/random_note)
 
 	. = ..()
 

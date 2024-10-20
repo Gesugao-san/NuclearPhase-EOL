@@ -135,3 +135,43 @@
 		/area/turbolift/serenity/mining/a4,
 		/area/turbolift/serenity/mining/a5
 		)
+
+/obj/turbolift_map_holder/serenity/mining_elevator
+	depth = 5
+	lift_size_x = 3
+	lift_size_y = 3
+	icon = 'icons/obj/turbolift_preview_2x2.dmi'
+	dir = EAST
+
+	areas_to_use = list(
+		/area/turbolift/serenity/mining/a1,
+		/area/turbolift/serenity/mining/a2,
+		/area/turbolift/serenity/mining/a3,
+		/area/turbolift/serenity/mining/a4,
+		/area/turbolift/serenity/mining/a5
+		)
+
+/obj/turbolift_map_holder/serenity/labs_elevator
+	depth = 3
+	lift_size_x = 4
+	lift_size_y = 4
+	icon = 'icons/obj/turbolift_preview_3x3.dmi'
+	dir = EAST
+
+	areas_to_use = list(
+		/area/turbolift/serenity/labs/a1,
+		/area/turbolift/serenity/labs/a2,
+		/area/turbolift/serenity/labs/a3
+		)
+
+/obj/turbolift_map_holder/serenity/charlie_elevator
+	depth = 2
+	lift_size_x = 3
+	lift_size_y = 3
+	icon = 'icons/obj/turbolift_preview_2x2.dmi'
+	dir = EAST
+
+	areas_to_use = list(
+		/area/turbolift/serenity/charlie/a1,
+		/area/turbolift/serenity/charlie/a2
+		)

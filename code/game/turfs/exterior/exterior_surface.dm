@@ -60,19 +60,7 @@
 		clear_ambient_light()
 
 /turf/exterior/surface/return_air()
-	if(!mapowner)
-		return
-	var/datum/gas_mixture/gas
-	gas = new
-	gas.copy_from(mapowner.exterior_atmosphere)
-
-	var/initial_temperature = gas.temperature
-	for(var/thing in affecting_heat_sources)
-		if((gas.temperature - initial_temperature) >= 100)
-			break
-		var/obj/structure/fire_source/heat_source = thing
-		gas.temperature = gas.temperature + heat_source.exterior_temperature / max(1, get_dist(src, get_turf(heat_source)))
-	return gas
+	return mapowner.exterior_atmosphere
 
 /turf/exterior/surface/proc/switch_cracks(var/remove_cracks = FALSE) //i shat myself
 	if(remove_cracks)
@@ -119,6 +107,9 @@
 	name = "canyon"
 	desc = "Looks very deep..."
 	var/datum/map/mapowner = null
+
+/turf/simulated/open/exterior/return_air()
+	return mapowner.exterior_atmosphere
 
 /turf/simulated/open/exterior/Initialize()
 	..()

@@ -1,3 +1,27 @@
+/proc/get_analysis_header(patient_name, patient_age, patient_gender, performer_name, analysis_name)
+	var/responsible_individual_name = "Sarah Jefferson" // the name of current lab director
+	var/text = "\
+	<h1><b>WEHS <font color=\"blue\">DIAGNOSTICS LAB</font></b></h1>\
+      <h2>Worlds Established Healthcare System</h2>\
+      <small>WEHS Headquarters, HW31, New Tokyo, 3rd sector</small><br>\
+      <hr><br>\
+      <table>\
+        <tr><td><b>[patient_name]</b></td><td>|</td><td><b>Performed At:</b></td><td>|</td><td><b>Performed On:</b> [worldtime2stationtime(world.time)]</td></tr>\
+        <tr><td>Age: [patient_age] Years</td><td>|</td><td>ESS \"Serenity\", HW37, 3rd sector</td></bd><td>|</td></tr>\
+        <tr><td>Sex: [patient_gender]</td><td>|</td><td><b>Performed By:</b> [performer_name]</td><td>|</td></tr>\
+        <tr><td>Patient ID: 1111</td><td>|</td><td>Ref. By:<b> [responsible_individual_name]</b></td><td>|</td></tr>\
+      </table>\
+      <hr>\
+      <h2>[analysis_name]</h2>\
+      <hr>"
+	return text
+
+/proc/get_blood_analysis_row()
+	return "<tr><td width=\"200\">Name</td><td width=\"50\">Value</td><td width=\"50\" >Unit</td><td width=\"70\">Normal Values</td></tr>"
+
+/proc/get_blood_analysis_line(name, value, unit, normal_values)
+	return "<tr><td>[name]</td><td>[value]</td><td>[unit]</td><td>[normal_values]</td></tr>"
+
 /decl/blood_analysis
 	var/name
 	var/description
@@ -6,18 +30,40 @@
 /decl/blood_analysis/proc/return_analysis(mob/living/carbon/human/H, blood_data)
 	return ""
 
-/decl/blood_analysis/potassium
-	name = "Biochemical Analysis"
+/decl/blood_analysis/biochemistry
+	name = "Full Biochemical Blood Test"
 
-/decl/blood_analysis/potassium/return_analysis(mob/living/carbon/human/H, blood_data)
-	var/list/text = ""
+/decl/blood_analysis/biochemistry/return_analysis(mob/living/carbon/human/H, blood_data)
+	var/list/value_table = list()
 	var/list/chem_data = blood_data["trace_chem"]
-	text += "<center><b>Analysis #[rand(1, 999)]</b></center><br>"
-	text += "<center><i>Biochemical Analysis</i></center><br>"
-	text += "Potassium: [round(0.3 + chem_data[/decl/material/solid/potassium], 0.1)] (1-3)<br>"
-	text += "Proteins: [round(rand(90, 110)*0.1, 0.1)] (5-17)<br>"
-	text += "Blood pH: [round(rand(735, 745) * 0.01, 0.01)] (7.35-7.45)<br>"
-	return jointext(text, "<br>")
+
+	var/patient_name = "UNKNOWN"
+	var/patient_age = "UNKNOWN"
+	var/patient_gender = "UNKNOWN"
+	var/performer_name = "UNKNOWN"
+	var/weakref/W = blood_data["donor"]
+	var/mob/living/carbon/human/donor = W.resolve()
+	if(donor)
+		patient_name = donor.real_name
+		patient_age = donor.get_age()
+		patient_gender = capitalize(donor.gender)
+
+	var/obj/item/organ/internal/heart/heart = GET_INTERNAL_ORGAN(H, BP_HEART)
+	var/obj/item/organ/internal/liver/liver = GET_INTERNAL_ORGAN(H, BP_LIVER)
+	var/obj/item/organ/internal/kidneys/kidneys = GET_INTERNAL_ORGAN(H, BP_KIDNEYS)
+	value_table += get_blood_analysis_line("Erythrocytes", round((rand(444, 500)*0.01)*H.get_blood_volume_hemo(), 0.01), "10*12/l", "4.44-5.61")
+	value_table += get_blood_analysis_line("Potassium", round(0.3 + chem_data[/decl/material/solid/potassium], 0.1), "mg/ml", "1-3")
+	value_table += get_blood_analysis_line("Proteins", round(rand(90, 110)*0.1, 0.1), "mcg/ml", "9-11")
+	value_table += get_blood_analysis_line("pH", round(rand(735, 745) * 0.01, 0.01), "", "7.35-7.45")
+	value_table += get_blood_analysis_line("Hematocrit", round(rand(400, 494) * 0.1, 0.01), "%", "40.0-49.4")
+	value_table += get_blood_analysis_line("Troponin-T", rand(0, 5)*0.01 + round(heart.damage * 0.3, 0.01), "mcg/ml", "0-0.04")
+	value_table += get_blood_analysis_line("Bilirubin", rand(171, 205)*0.01 + round(liver.damage * 0.6, 0.01), "mcg/ml", "1.71-20.5")
+	value_table += get_blood_analysis_line("ACR", rand(0, 29) + round(kidneys.damage * 1.3, 0.01), "mcg/ml", "0-33")
+	value_table += get_blood_analysis_line("Lymphocytes", round((rand(17, 25)*0.001)*H.immunity, 0.01), "10*9/l", "0.85-3.00")
+	value_table += get_blood_analysis_line("SREC", round(H.srec_dose, 0.01), "mcg/ml", "0-40.0")
+
+	var/joined_table = jointext(list(get_analysis_header(patient_name, patient_age, patient_gender, performer_name, name), "<table>", get_blood_analysis_row(), jointext(value_table, ""), "<\table>"), "")
+	return joined_table
 
 /decl/blood_analysis/blood
 	name = "Blood Type Analysis"
@@ -29,21 +75,6 @@
 	text += "<center><i>Blood Type Analysis</i></center><br>"
 	text += "Blood Type: [blood_data["blood_type"]]<br>"
 	text += "DNA String: [blood_data["blood_DNA"]]<br>"
-	return jointext(text, "<br>")
-
-/decl/blood_analysis/organ
-	name = "Organ Function Analysis"
-
-/decl/blood_analysis/organ/return_analysis(mob/living/carbon/human/H, blood_data)
-	var/list/text = ""
-	var/obj/item/organ/internal/heart/heart = GET_INTERNAL_ORGAN(H, BP_HEART)
-	var/obj/item/organ/internal/liver/liver = GET_INTERNAL_ORGAN(H, BP_LIVER)
-	var/obj/item/organ/internal/kidneys/kidneys = GET_INTERNAL_ORGAN(H, BP_KIDNEYS)
-	text += "<center><b>Analysis #[rand(1, 999)]</b></center><br>"
-	text += "<center><i>Organ Function Analysis</i></center><br>"
-	text += "Troponin-T: [rand(0, 5)*0.01 + round(heart.damage * 0.3, 0.01)] (0.04<)<br>"
-	text += "Bilirubin: [rand(171, 205)*0.01 + round(liver.damage * 0.6, 0.01)] (1.71-20.5)<br>"
-	text += "ACR: [rand(0, 29) + round(kidneys.damage * 1.3, 0.01)] (33<)<br>"
 	return jointext(text, "<br>")
 
 /obj/machinery/blood_analysis
@@ -191,8 +222,8 @@
 /decl/scanner_analysis/ultrasound/fast/return_analysis(mob/living/carbon/human/H, blood_data)
 	var/list/resulting_data = list()
 
-	if(H.get_blood_perfusion() < 0.9)
-		if(H.get_blood_perfusion() < 0.7)
+	if(H.systemic_oxygen_saturation < 0.9)
+		if(H.systemic_oxygen_saturation < 0.7)
 			resulting_data += "Tissue perfusion is extremely poor.<br>"
 		else
 			resulting_data += "Tissue perfusion is slightly reduced.<br>"
@@ -208,19 +239,18 @@
 	else
 		resulting_data += "No pneumothorax.<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 
 	for(var/obj/item/organ/internal/I in H.get_internal_organs())
-		if(I.damage > I.max_damage * 0.35)
-			resulting_data += "Severe [I.name] damage.<br>"
+		resulting_data += "<b>[I.name]</b><br>[I.scan(FALSE)]<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 
 	for(var/obj/item/organ/external/E in H.get_external_organs())
 		if(E.status & ORGAN_ARTERY_CUT)
 			resulting_data += "[capitalize(E.artery_name)] bleeding in \the [E.name].<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 	if(H.srec_dose > 80)
 		switch(H.srec_dose)
 			if(80 to 140)
@@ -228,11 +258,12 @@
 			if(140 to 200)
 				resulting_data += "Developed SREC infection present.<br>"
 			if(200 to INFINITY)
-				resulting_data += "Major SREC infection clusters present!"
+				resulting_data += "Major SREC infection clusters present!<br>"
 	else
-		resulting_data += "No visible SREC infection detected..<br>"
+		resulting_data += "No visible SREC infection detected.<br>"
 
-	return jointext(resulting_data, "<br>")
+	var/joined_table = jointext(list(get_analysis_header(H.real_name, H.get_age(), capitalize(H.gender), "UNKNOWN", name), jointext(resulting_data, "")), "")
+	return joined_table
 
 /decl/scanner_analysis/ultrasound/organ
 	name = "Organ Ultrasound"
@@ -260,7 +291,7 @@
 			if(600 to INFINITY)
 				resulting_data += "Gangrenous appendicitis.<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 
 	if(H.srec_dose > 20)
 		resulting_data += "SREC infection present.<br>"
@@ -268,36 +299,19 @@
 	else
 		resulting_data += "No SREC infection detected.<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 
 	for(var/obj/item/organ/internal/I in H.get_internal_organs())
-		var/damage_fraction = I.damage / I.max_damage
-		var/infection_state = ""
-		switch(I.germ_level)
-			if(INFECTION_LEVEL_ONE to INFECTION_LEVEL_TWO)
-				infection_state = ", inflamed"
-			if(INFECTION_LEVEL_TWO to INFECTION_LEVEL_THREE)
-				infection_state = ", infected"
-			if(INFECTION_LEVEL_THREE to INFINITY)
-				infection_state = ", septic"
-		switch(damage_fraction)
-			if(0 to 0.1)
-				resulting_data += "[capitalize(I.name)]: normal[infection_state].<br>"
-			if(0.1 to 0.3)
-				resulting_data += "[capitalize(I.name)]: slight damage[infection_state].<br>"
-			if(0.3 to 0.7)
-				resulting_data += "[capitalize(I.name)]: severe damage[infection_state].<br>"
-			if(0.7 to 1)
-				resulting_data += "[capitalize(I.name)]: failing[infection_state].<br>"
+		resulting_data += "<b>[I.name]</b><br>[I.scan(TRUE)]<br>"
 
-	resulting_data += "<br>"
+	resulting_data += "<hr>"
 
 	for(var/obj/item/organ/external/E in H.get_external_organs())
 		if(E.status & ORGAN_ARTERY_CUT)
 			resulting_data += "[capitalize(E.artery_name)] bleeding in \the [E.name].<br>"
 
-	return jointext(resulting_data, "<br>")
-
+	var/joined_table = jointext(list(get_analysis_header(H.real_name, H.get_age(), capitalize(H.gender), "UNKNOWN", name), jointext(resulting_data, "")), "")
+	return joined_table
 
 /decl/scanner_analysis/xray
 	name = "XRay"
@@ -325,7 +339,8 @@
 		if(E.status & ORGAN_TENDON_CUT)
 			resulting_data += "Cut tendon in \the [E.name].<br>"
 
-	return jointext(resulting_data, "<br>")
+	var/joined_table = jointext(list(get_analysis_header(H.real_name, H.get_age(), capitalize(H.gender), "UNKNOWN", name), jointext(resulting_data, "")), "")
+	return joined_table
 
 /decl/scanner_analysis/radiation
 	name = "Radiation Screening"
@@ -338,4 +353,5 @@
 
 	resulting_data += "Estimated radiation dose: [round(H.radiation)]mSv.<br>"
 
-	return jointext(resulting_data, "<br>")
+	var/joined_table = jointext(list(get_analysis_header(H.real_name, H.get_age(), capitalize(H.gender), "UNKNOWN", name), jointext(resulting_data, "")), "")
+	return joined_table

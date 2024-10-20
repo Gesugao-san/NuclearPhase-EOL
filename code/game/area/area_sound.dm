@@ -3,7 +3,7 @@
 	var/datum/composite_sound/fire_noise/fire_loop
 
 /area/proc/process_ambience()
-	var/turf/simulated/floor/T = pick(contents)
+	var/turf/simulated/floor/T = pick(all_turfs)
 	if(!istype(T))
 		return
 	var/datum/gas_mixture/environment = T.return_air()

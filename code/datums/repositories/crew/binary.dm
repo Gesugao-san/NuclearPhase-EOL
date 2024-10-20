@@ -5,7 +5,7 @@
 		var/obj/item/organ/internal/heart/O = H.get_organ(BP_HEART, /obj/item/organ/internal/heart)
 		if (!O || !BP_IS_PROSTHETIC(O)) // Don't make medical freak out over prosthetic hearts
 			var/pulse = H.pulse()
-			if(pulse == PULSE_NONE || pulse == PULSE_THREADY)
+			if(pulse == PULSE_NONE || pulse > PULSE_THREADY)
 				crew_data["alert"] = TRUE
 		if(H.get_blood_oxygenation() < BLOOD_VOLUME_SAFE)
 			crew_data["alert"] = TRUE

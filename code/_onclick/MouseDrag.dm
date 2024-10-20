@@ -8,11 +8,14 @@
 		if(A.RelayMouseDrag(src_object, over_object, src_location, over_location, src_control, over_control, params, src))
 			return
 
+	if(a_intent == I_HELP)
+		return TRUE
+
 	var/obj/item/gun/gun = get_active_hand()
-	if(a_intent == I_HURT && istype(over_object) && (isturf(over_object) || isturf(over_object.loc)) && !incapacitated() && istype(gun))
+	if(istype(over_object) && (isturf(over_object) || isturf(over_object.loc)) && !incapacitated() && istype(gun))
 		gun.set_autofire(over_object, src)
 
-	if(!Adjacent(over_object) ||!canClick() || !ismob(over_object) || a_intent == I_HELP)
+	if(!Adjacent(over_object) ||!canClick() || !ismob(over_object))
 		return TRUE
 	if(!prob(10 * get_skill_value(SKILL_COMBAT)))
 		return TRUE

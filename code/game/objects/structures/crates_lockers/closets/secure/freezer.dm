@@ -14,7 +14,11 @@
 	)
 
 /obj/structure/closet/secure_closet/freezer/kitchen/mining
+	name = "industrial freezer"
 	req_access = list()
+
+/obj/structure/closet/secure_closet/freezer/kitchen/mining/WillContain()
+	return list()
 
 /obj/structure/closet/secure_closet/freezer/meat
 	name = "meat fridge"

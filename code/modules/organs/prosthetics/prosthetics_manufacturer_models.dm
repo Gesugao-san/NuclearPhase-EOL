@@ -58,15 +58,16 @@ DEFINE_ROBOLIMB_MODEL_ASPECTS(/decl/prosthetics_manufacturer/basic_biomech, biom
 	movement_slowdown = -1.5
 	manual_dexterity = DEXTERITY_FULL
 	modular_prosthetic_tier = MODULAR_BODYPART_CYBERNETIC
+	can_feel_pain = TRUE
 	can_eat = 1
 
 /decl/prosthetics_manufacturer/advanced_biomech/get_base_icon(mob/living/carbon/human/owner, masked)
 	if(owner.gender == MALE)
-		if(masked)
+		if(!masked)
 			return 'icons/mob/species/cyberlimbs/biomech_male.dmi'
 		return 'icons/mob/species/human/body_male.dmi'
 	else
-		if(masked)
+		if(!masked)
 			return 'icons/mob/species/cyberlimbs/biomech_female.dmi'
 		return 'icons/mob/species/human/body_female.dmi'
 

@@ -1,0 +1,3 @@
+#define PROCESSING_CLASS_ASSEMBLER "assembler"
+#define PROCESSING_CLASS_CUTTER "cutter"
+#define PROCESSING_CLASS_ENGRAVER "engraver"

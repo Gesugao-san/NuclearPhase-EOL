@@ -162,3 +162,20 @@
 	if(head)
 		head.glowing_eyes = !head.glowing_eyes
 		owner.refresh_visible_overlays()
+
+/obj/item/organ/internal/eyes/scan(advanced)
+	if(advanced)
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				return "No ocular abnormalities. Visual acuity is normal, and all ocular structures, including the retina, cornea, and optic nerve, are healthy and fully functional."
+			if(0.1 to 0.4)
+				return "Mild ocular trauma. Localized retinal damage or corneal abrasions present. Visual acuity may be partially impaired, with potential for blurry vision or reduced peripheral vision."
+			if(0.4 to 0.8)
+				return "Severe ocular trauma. Significant damage to the retina, optic nerve, or lens, leading to considerable loss of vision. Visual fields are greatly compromised, with potential for blindness in some areas."
+			if(0.8 to 1)
+				return "Critical ocular trauma. Extensive damage to ocular structures, including retinal detachment, optic nerve severance, or globe rupture. Near-total blindness is expected, with little to no light perception."
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe ocular injury."
+		else
+			return "No major ocular damage."

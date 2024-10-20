@@ -46,6 +46,7 @@ STACK_SUBTYPES(sandstone,      "sandstone",                     solid/stone/sand
 STACK_SUBTYPES(marble,         "marble",                        solid/stone/marble,         brick,      null)
 STACK_SUBTYPES(graphite,       "graphite",                      solid/graphite,             brick,      null)
 STACK_SUBTYPES(diamond,        "diamond",                       solid/gemstone/diamond,     gemstone,   null)
+STACK_SUBTYPES(srec,           "SREC",                       	solid/static_crystal,       gemstone,   null)
 STACK_SUBTYPES(uranium,        "uranium",                       solid/metal/uranium,        puck,       null)
 STACK_SUBTYPES(carbon,         "carbon",                        solid/carbon,        		puck,       null)
 STACK_SUBTYPES(plastic,        "plastic",                       solid/plastic,              panel,      null)

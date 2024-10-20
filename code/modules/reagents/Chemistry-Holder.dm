@@ -68,9 +68,8 @@ var/global/obj/temp_reagents_holder = new
 
 #define BASAL_REACTION_RATE 50
 
-/datum/reagents/proc/get_reaction_speed_coef(var/decl/material/R, activation_energy, temperature) // in ml per reaction
-	. = min(0, R.reactivity_coefficient * (temperature / activation_energy * R_IDEAL_GAS_EQUATION))
-	return .
+/datum/reagents/proc/get_reaction_speed_coef(var/decl/material/R, minimum_temperature, absolute_temperature) // a coefficient
+	return min(0.01, 1 - (1 / (1 + abs(minimum_temperature - absolute_temperature))))
 
 /datum/reagents/proc/process_reactions()
 
@@ -91,6 +90,7 @@ var/global/obj/temp_reagents_holder = new
 		var/list/replace_self_with
 		var/replace_message
 		var/replace_sound
+		var/replace_temperature = 0
 
 		if(!(check_flags & ATOM_FLAG_NO_PHASE_CHANGE))
 			if(!isnull(R.chilling_point) && R.type != R.bypass_cooling_products_for_root_type && LAZYLEN(R.chilling_products) && temperature <= R.chilling_point)
@@ -98,11 +98,13 @@ var/global/obj/temp_reagents_holder = new
 				if(R.chilling_message)
 					replace_message = "\The [lowertext(R.name)] [R.chilling_message]"
 				replace_sound = R.chilling_sound
+				replace_temperature = R.chilling_point
 			else if(!isnull(R.heating_point) && R.type != R.bypass_heating_products_for_root_type && LAZYLEN(R.heating_products) && temperature >= R.heating_point)
 				replace_self_with = R.heating_products
 				if(R.heating_message)
 					replace_message = "\The [lowertext(R.name)] [R.heating_message]"
 				replace_sound = R.heating_sound
+				replace_temperature = R.heating_point
 
 		if(isnull(replace_self_with) && !isnull(R.dissolves_in) && !(check_flags & ATOM_FLAG_NO_DISSOLVE) && LAZYLEN(R.dissolves_into))
 			for(var/other in reagent_volumes)
@@ -118,7 +120,7 @@ var/global/obj/temp_reagents_holder = new
 
 		// If it is, handle replacing it with the decay product.
 		if(replace_self_with)
-			var/replace_amount = REAGENT_VOLUME(src, R.type) * get_reaction_speed_coef(R) + 0.1
+			var/replace_amount = REAGENT_VOLUME(src, R.type) * get_reaction_speed_coef(R, abs(replace_temperature), temperature) + 1
 			remove_reagent(R.type, replace_amount)
 			for(var/product in replace_self_with)
 				add_reagent(product, replace_self_with[product] * replace_amount)

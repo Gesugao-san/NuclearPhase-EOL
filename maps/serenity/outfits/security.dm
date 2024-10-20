@@ -53,3 +53,17 @@
 	backpack_contents = list(/obj/item/flash=1)
 	r_pocket = /obj/item/handcuffs
 	pda_type = /obj/item/modular_computer/pda
+
+/decl/hierarchy/outfit/job/security/officer/armed
+	name = "Job - Trooper, Armed"
+	uniform = /obj/item/clothing/under/security
+	gloves = /obj/item/clothing/gloves/tactical
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = /obj/item/clothing/head/helmet/tactical
+	suit = /obj/item/clothing/suit/armor/pcarrier/green/tactical
+	suit_store = /obj/item/gun/projectile/automatic/assault_rifle
+	backpack_contents = list(/obj/item/storage/firstaid/ifak=1)
+	r_pocket = /obj/item/handcuffs
+	glasses = /obj/item/clothing/glasses/night
+	pda_type = /obj/item/modular_computer/pda
+	belt = /obj/item/storage/belt/holster/security/tactical/full

@@ -3,6 +3,7 @@
 	plane = DEFAULT_PLANE
 	layer = MOB_LAYER
 
+	atom_flags = ATOM_FLAG_NO_CHEM_CHANGE
 	appearance_flags = PIXEL_SCALE | LONG_GLIDE
 	animate_movement = 2
 	movable_flags = MOVABLE_FLAG_PROXMOVE

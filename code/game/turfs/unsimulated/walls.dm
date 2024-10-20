@@ -11,6 +11,7 @@
 	icon_state = "000"
 	opacity = 1
 	density = 1
+	blocks_air = 1
 
 /turf/unsimulated/wall/fakeglass
 	name = "window"

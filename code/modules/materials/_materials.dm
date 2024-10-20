@@ -833,7 +833,7 @@ var/decl/material/boil_mat = null
 					slow_neutrons -= fission_reactions
 				else
 					fast_neutrons -= fission_reactions
-				 container.adjust_gas(src.type, fission_reactions * -1, FALSE)
+				container.adjust_gas(src.type, fission_reactions * -1, FALSE)
 				for(var/waste_type in fission_products)
 					container.adjust_gas(waste_type, fission_reactions*fission_products[waste_type], FALSE)
 				fast_neutrons += fission_reactions * fission_neutrons

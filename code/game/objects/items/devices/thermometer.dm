@@ -3,6 +3,7 @@
 	desc = "A simple digital infrared thermometer. Contact distance: 2 meters."
 	icon = 'icons/obj/items/device/thermometer.dmi'
 	icon_state = "white"
+	material = /decl/material/solid/plastic
 
 /obj/item/thermometer/attack(atom/target, mob/user, proximity_flag, click_parameters)
 	var/message = ""

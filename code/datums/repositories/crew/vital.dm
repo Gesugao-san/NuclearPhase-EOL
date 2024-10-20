@@ -7,7 +7,7 @@
 		var/obj/item/organ/internal/heart/O = H.get_organ(BP_HEART, /obj/item/organ/internal/heart)
 		if (!O || !BP_IS_PROSTHETIC(O)) // Don't make medical freak out over prosthetic hearts
 			crew_data["true_pulse"] = H.pulse()
-			crew_data["pulse"] = round(H.get_pulse(GETPULSE_TOOL), 1)
+			crew_data["pulse"] = H.get_pulse(GETPULSE_TOOL)
 			switch(crew_data["true_pulse"])
 				if(PULSE_NONE to PULSE_SLOW)
 					crew_data["pulse_span"] = "bad"
@@ -40,7 +40,7 @@
 	crew_data["oxygenation"] = ""
 	crew_data["oxygenation_span"] = ""
 	if(!H.isSynthetic() && H.should_have_organ(BP_HEART))
-		crew_data["pressure"] = H.get_blood_pressure()
+		crew_data["pressure"] = H.get_blood_pressure_fluffy()
 		crew_data["true_oxygenation"] = H.get_blood_oxygenation()
 		switch (crew_data["true_oxygenation"])
 			if(BLOOD_VOLUME_SAFE to 105)

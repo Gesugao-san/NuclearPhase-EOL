@@ -928,7 +928,7 @@
 	if(bpm >= PULSE_MAX_BPM)
 		return method ? ">[PULSE_MAX_BPM]" : "extremely weak and fast, patient's artery feels like a thread"
 
-	return "[method ? bpm : bpm + rand(-10, 10)]"
+	return "[round(method ? bpm : bpm + rand(-10, 10))]"
 // output for machines ^	 ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ output for people
 
 /mob/living/carbon/human/proc/pulse()
@@ -988,9 +988,9 @@
 
 /mob/living/carbon/human/get_breath_volume()
 	. = ..()
-	var/obj/item/organ/internal/heart/H = get_organ(BP_HEART, /obj/item/organ/internal/heart)
-	if(H && !H.open)
-		. *= (!BP_IS_PROSTHETIC(H)) ? pulse()/PULSE_NORM : 1.5
+	var/obj/item/organ/internal/lungs/L = GET_INTERNAL_ORGAN(src, BP_LUNGS)
+	if(L)
+		return (L.tidal_volume * L.breath_rate) / 30000
 
 /mob/living/carbon/human/need_breathe()
 	if(!(mNobreath in mutations) && species.breathing_organ && should_have_organ(species.breathing_organ))
@@ -1383,6 +1383,8 @@
 	update_oxygen_capacities()
 	oxygen_amount = normal_oxygen_capacity
 	calculate_strength_coefficients()
+	for(var/obj/item/organ/internal/I in internal_organs)
+		I.update_skill_effects()
 
 /mob/proc/calculate_strength_coefficients()
 	pickup_capacity = initial(pickup_capacity)
@@ -1427,11 +1429,10 @@ var/global/decl/spawnpoint/limb/spawnpoint_limb
 	new_character.key = key
 	limb_mob = new_character
 	SSjobs.equip_ghostrank(new_character, "Explorer", 0)
-	spawn(0)
-		if(new_character.get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
-			tgui_alert(new_character, "Вы потеряли сознание. Вы либо будете спасены, либо умрете, в случае чего вы сможете возродиться за другого персонажа. Здесь нет призраков, к которым вы привыкли, если вы игрок SS13. Любые формы насилия(гриферство) запрещены и будут строго караться.", "Лимб")
-		else
-			tgui_alert(new_character, "You lost consciousness. You'll either get rescued or die, in which case you can respawn. There are no ghosts like you are used to if you're a SS13 player. Griefing is forbidden here and you will get punished for it.", "Limbo")
+	if(new_character.get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), new_character, "Вы потеряли сознание. Вы либо будете спасены, либо умрете, в случае чего вы сможете возродиться за другого персонажа. Здесь нет призраков, к которым вы привыкли, если вы игрок SS13. Любые формы насилия(гриферство) запрещены и будут строго караться.", "Лимб"), 0)
+	else
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), new_character, "You lost consciousness. You'll either get rescued or die, in which case you can respawn. There are no ghosts like you are used to if you're a SS13 player. Griefing is forbidden here and you will get punished for it.", "Limbo"), 0)
 
 /mob/living/carbon/human/proc/retrieve_from_limb(var/forced = FALSE)
 	if(!limb_mob)
@@ -1443,11 +1444,10 @@ var/global/decl/spawnpoint/limb/spawnpoint_limb
 	qdel(limb_mob)
 	limb_mob = null
 	sound_to(src, sound(null))
-	spawn(0)
-		if(get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
-			tgui_alert(src, "Вы снова в сознании. Помните, что лучше не использовать метаинформацию, которую вы могли получить в лимбе.", "Limb")
-		else
-			tgui_alert(src, "You're conscious again. Remember that it's best to not use any meta information you may have received in the limbo.", "Limbo")
+	if(get_preference_value(/datum/client_preference/russian_translation) == PREF_YES)
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), src, "Вы снова в сознании. Помните, что лучше не использовать метаинформацию, которую вы могли получить в лимбе.", "Лимб"), 0)
+	else
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(tgui_alert), src, "You're conscious again. Remember that it's best to not use any meta information you may have received in the limbo.", "Limbo"), 0)
 
 /mob/living/carbon/human/update_weight()
 	. = ..()

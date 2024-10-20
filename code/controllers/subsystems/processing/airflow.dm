@@ -4,9 +4,6 @@
 	TARGET.airflow_speed = 0;               \
 	TARGET.airflow_time = 0;                \
 	TARGET.airflow_skip_speedcheck = FALSE; \
-	if (TARGET.airflow_od) {                \
-		TARGET.density = 0;                 \
-	}
 
 PROCESSING_SUBSYSTEM_DEF(airflow)
 	name = "Airflow"
@@ -53,16 +50,12 @@ PROCESSING_SUBSYSTEM_DEF(airflow)
 		if (!target.airflow_skip_speedcheck)
 			if (target.airflow_speed > 7)
 				if (target.airflow_time++ >= target.airflow_speed - 7)
-					if (target.airflow_od)
-						target.density = 0
 					target.airflow_skip_speedcheck = TRUE
 
 					if (MC_TICK_CHECK)
 						return
 					continue
 			else
-				if (target.airflow_od)
-					target.density = 0
 				target.airflow_process_delay = max(1, 10 - (target.airflow_speed + 3))
 				target.airflow_skip_speedcheck = TRUE
 
@@ -71,9 +64,6 @@ PROCESSING_SUBSYSTEM_DEF(airflow)
 				continue
 
 		target.airflow_skip_speedcheck = FALSE
-
-		if (target.airflow_od)
-			target.density = 1
 
 		if (!target.airflow_dest || target.loc == target.airflow_dest)
 			target.airflow_dest = locate(min(max(target.x + target.airflow_xo, 1), world.maxx), min(max(target.y + target.airflow_yo, 1), world.maxy), target.z)
@@ -108,7 +98,6 @@ PROCESSING_SUBSYSTEM_DEF(airflow)
 /atom/movable
 	var/tmp/airflow_xo
 	var/tmp/airflow_yo
-	var/tmp/airflow_od
 	var/tmp/airflow_process_delay
 	var/tmp/airflow_skip_speedcheck
 
@@ -136,12 +125,6 @@ PROCESSING_SUBSYSTEM_DEF(airflow)
 		return FALSE
 
 	airflow_speed = min(max(n * (9 / airflow_falloff), 1), 9)
-
-	airflow_od = 0
-
-	if (!density)
-		density = 1
-		airflow_od = 1
 
 	return TRUE
 

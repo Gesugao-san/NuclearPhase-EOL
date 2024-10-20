@@ -332,6 +332,12 @@
 		"stripes_horizontal" = COLOR_BLUE_GRAY
 	)
 
+/decl/closet_appearance/secure_closet/medical/consumables
+	extra_decals = list(
+		"circle" = COLOR_NT_RED,
+		"stripes_horizontal" = COLOR_BLUE_GRAY
+	)
+
 /decl/closet_appearance/secure_closet/medical/virology
 	decals = list(
 		"upper_side_vent",
@@ -596,6 +602,17 @@
 	extra_decals = list(
 		"crate_stripe_left" = COLOR_YELLOW_GRAY,
 		"crate_stripe_right" = COLOR_YELLOW_GRAY
+	)
+
+/decl/closet_appearance/crate/secure/srec
+	color = COLOR_TITANIUM
+	decals = list(
+		"crate_bracing"
+	)
+	extra_decals = list(
+		"crate_stripe_left" = COLOR_SREC,
+		"crate_stripe_right" = COLOR_SREC,
+		"crate_reticle" = COLOR_SREC_ACTIVE
 	)
 
 // Large crates.

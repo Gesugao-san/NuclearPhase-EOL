@@ -20,6 +20,8 @@
 	var/normal_oxygen_capacity = 1040
 	var/oxygen_amount = 120
 	var/add_mcv = 0
+	var/blood_perfusion = 1
+	var/systemic_oxygen_saturation = 1 // 0-1, basically reversed oxygen deprivation but for the entire body
 
 /mob/living/carbon/human/proc/get_blood_volume_hemo()
 	. = vessel.total_volume / species.blood_volume
@@ -35,13 +37,24 @@
 		return 1
 	. = oxygen_amount / normal_oxygen_capacity
 
+/mob/living/carbon/human/proc/cache_systemic_saturation()
+	if(systemic_oxygen_saturation < 0.5)
+		systemic_oxygen_saturation = min(0.5, blood_perfusion)
+		return
+	systemic_oxygen_saturation = max(0.5, systemic_oxygen_saturation)
+	if(blood_perfusion > systemic_oxygen_saturation)
+		systemic_oxygen_saturation += blood_perfusion * 0.05
+	else
+		systemic_oxygen_saturation -= 0.05
+	systemic_oxygen_saturation = min(1, systemic_oxygen_saturation)
+
 #define MCV_COEF(mcv, metabolic_coefficient) mcv / NORMAL_MCV * metabolic_coefficient
 
 /mob/living/carbon/human/proc/get_blood_perfusion()
-	if(stat == DEAD)
-		return 0
+	return blood_perfusion
 
-	. = CLAMP01(MCV_COEF(mcv, metabolic_coefficient) * oxygen_amount/1200 * meanpressure / NORMAL_MEAN_PRESSURE)
+/mob/living/carbon/human/proc/cache_blood_perfusion()
+	blood_perfusion = Interpolate(blood_perfusion, CLAMP01(MCV_COEF(mcv, metabolic_coefficient) * oxygen_amount/1200 * meanpressure / NORMAL_MEAN_PRESSURE), HEMODYNAMICS_INTERPOLATE_FACTOR)
 
 #undef MCV_COEF
 #define VENOUS_RETURN_COEF(dyspressure) min(1.7, dyspressure / 80)
@@ -77,12 +90,14 @@
 	if(bpm > 0)
 		ccp = 60/bpm
 
-	var/perfusion = get_blood_perfusion()
+	cache_blood_perfusion()
+	cache_systemic_saturation()
+
 	tpvr = metabolic_coefficient * 312.50746 //base
 	tpvr += syspressure * (0.0008 * syspressure - 0.8833) //this simulates vascular elasticity. More pressure - less TPVR, and side versa
 	tpvr += LAZYACCESS0(chem_effects, CE_PRESSURE) //medication effects
 	tpvr -= getToxLoss() * 0.203 //toxicity dilates vessels
-	tpvr *= perfusion //vasoconstriction depends on muscles, muscles need oxygen
+	tpvr *= systemic_oxygen_saturation //vasoconstriction depends on muscles, muscles need oxygen
 	tpvr = Clamp(tpvr, TPVR_MIN, TPVR_MAX) //static friction and elasticity flatline
 
 	var/bpmd = ccp * 0.109 + 0.159
@@ -100,12 +115,21 @@
 #undef PULSE_PRESSURE
 #undef MCV_PRESSURE
 
+// in ml/min
+#define BLOOD_OXYGEN_CONTENT(oxygen_amount, blood_amount) oxygen_amount / blood_amount
+#define OXYGEN_DELIVERY(cardiac_output, oxygen_amount, blood_amount) (cardiac_output * BLOOD_OXYGEN_CONTENT(oxygen_amount, blood_amount))
+#define OXYGEN_AVAILABLE(cardiac_output, oxygen_amount, blood_amount) (0.35 * OXYGEN_DELIVERY(cardiac_output, oxygen_amount, blood_amount))
+
 /mob/living/carbon/human/proc/consume_oxygen(amount)
-	var/available_oxygen = oxygen_amount * get_blood_perfusion()
-	if(available_oxygen > amount * OXYGEN_DELTA_DIVISOR)
+	var/available_oxygen = OXYGEN_AVAILABLE(mcv, oxygen_amount, vessel.total_volume) / 30
+	if(available_oxygen > amount)
 		oxygen_amount -= amount
 		return 1
 	return 0
+
+#undef BLOOD_OXYGEN_CONTENT
+#undef OXYGEN_DELIVERY
+#undef OXYGEN_AVAILABLE
 
 /mob/living/carbon/human/proc/add_oxygen(amount)
 	oxygen_amount = Clamp(oxygen_amount + amount, 0, max_oxygen_capacity)

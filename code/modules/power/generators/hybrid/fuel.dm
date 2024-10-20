@@ -145,7 +145,7 @@
 		if(melted)
 			var/obj/item/weldingtool/WT = I
 			if(!WT.isOn())
-				to_chat(user, "<span class='notice'>The welding tool needs to be of any use here.</span>")
+				to_chat(user, "<span class='notice'>The welding tool needs to be on to be of any use here.</span>")
 				return
 			visible_message(SPAN_DANGER("[user] starts cutting through [src]'s locking mechanism with the [I]!"))
 			playsound(src, 'sound/items/Welder.ogg', 50, 1)

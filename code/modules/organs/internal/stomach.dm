@@ -137,3 +137,20 @@
 			owner.vomit()
 
 #undef STOMACH_VOLUME
+
+/obj/item/organ/internal/stomach/scan(advanced)
+	if(advanced)
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				return "No gastrointestinal abnormalities. Stomach function is normal, with efficient digestion and gastric motility. Mucosal lining and acid production are within healthy ranges."
+			if(0.1 to 0.4)
+				return "Mild gastric injury. Localized erosion or ulceration of the gastric mucosa, leading to occasional discomfort or indigestion. Gastric acid production may be slightly increased or decreased."
+			if(0.4 to 0.8)
+				return "Severe gastric injury. Significant loss of mucosal integrity, with widespread ulceration and reduced gastric motility."
+			if(0.8 to 1)
+				return "Critical gastric failure. Extensive damage to the stomach lining, with perforation or necrosis of tissue."
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe gastric injury."
+		else
+			return "No major gastric damage."

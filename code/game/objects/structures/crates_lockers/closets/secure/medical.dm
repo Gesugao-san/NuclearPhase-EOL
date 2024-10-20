@@ -30,6 +30,21 @@
 		/obj/item/storage/box/gloves
 	)
 
+/obj/structure/closet/secure_closet/consumables
+	name = "medical consumables closet"
+	desc = "Filled with expendable medications."
+	closet_appearance = /decl/closet_appearance/secure_closet/medical/consumables
+	req_access = list(access_medical_equip)
+
+/obj/structure/closet/secure_closet/consumables/WillContain()
+	return list(
+		/obj/item/chems/hypospray/autoinjector/srec = 4,
+		/obj/item/chems/hypospray/autoinjector/pain = 3,
+		/obj/item/storage/pill_bottle/foil_pack/tramadol = 3,
+		/obj/item/storage/pill_bottle/foil_pack/amicile = 3
+	)
+
+
 /obj/structure/closet/secure_closet/medical3
 	name = "medical doctor's locker"
 	req_access = list(access_medical_equip)

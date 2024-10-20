@@ -15,6 +15,11 @@
 /obj/structure/closet/secure_closet/personal/empty/WillContain()
 	return
 
+/obj/structure/closet/secure_closet/personal/labs
+	name = "lab uniform closet"
+/obj/structure/closet/secure_closet/personal/labs/WillContain()
+	return list(/obj/item/clothing/under/chemist, /obj/item/clothing/under/color/white, /obj/item/clothing/suit/storage/toggle/labcoat, /obj/item/clothing/suit/storage/toggle/labcoat/cmoalt, /obj/item/clothing/suit/storage/toggle/labcoat/blue)
+
 /obj/structure/closet/secure_closet/personal/patient
 	name = "patient's closet"
 /obj/structure/closet/secure_closet/personal/patient/WillContain()

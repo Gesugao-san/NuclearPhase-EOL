@@ -25,6 +25,11 @@
 	var/list/stability_modifiers = list()
 	var/last_arrythmia_appearance //world time
 
+/obj/item/organ/internal/heart/rejuvenate(ignore_prosthetic_prefs)
+	. = ..()
+	instability = 0
+	cardiac_output = 1
+
 /obj/item/organ/internal/heart/die()
 	. = ..()
 	pulse = 0
@@ -61,7 +66,9 @@
 	..()
 
 /obj/item/organ/internal/heart/proc/get_modifiers()
-	bpm_modifiers["hypoperfusion"] = (1 - owner.get_blood_perfusion()) * 120
+	bpm_modifiers["hypoperfusion"] = (1 - owner.get_blood_perfusion()) * 80
+	if(1 > owner.get_blood_saturation())
+		bpm_modifiers["hypoxia"] = min((1 - owner.get_blood_saturation()) * 250, 80)
 	cardiac_output_modifiers["hypoperfusion"] = min(2 - owner.get_blood_perfusion(), 1.2)
 	bpm_modifiers["ischemia"] = oxygen_deprivation * -2.4
 	bpm_modifiers["shock"] = clamp(owner.shock_stage * 0.35, 0, 110)
@@ -74,13 +81,13 @@
 	var/ninstability = 0
 
 	if(owner.mcv > 10000)
-		ninstability += 20
+		ninstability += (owner.mcv - 8000) * 0.003
 	if(owner.mcv < 400)
 		ninstability += 60
-	if(owner.get_blood_perfusion() < 0.5)
-		ninstability += 20
-	if(cardiac_output < 0.5)
-		ninstability += 20
+	if(owner.blood_perfusion < 0.7)
+		ninstability += (0.7 - owner.blood_perfusion) * 70
+	if(cardiac_output < 0.8)
+		ninstability += (0.8 - cardiac_output) * 100
 	if(owner.tpvr > 280)
 		ninstability += 20
 
@@ -222,3 +229,43 @@
 		return english_list(rhythmes)
 	else
 		return "Normal Rhythm"
+
+/obj/item/organ/internal/heart/scan(advanced)
+	if(advanced)
+		var/structural_description
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				structural_description = "No structural abnormalities detected."
+			if(0.1 to 0.4)
+				structural_description = "Mild myocardial damage. Localized scarring present."
+			if(0.4 to 0.8)
+				structural_description = "Severe myocardial damage. Widespread structural defects."
+			if(0.8 to 1)
+				structural_description = "Critical cardiac injury. Extensive necrosis or structural failure of the myocardium."
+		var/ischemia_description
+		switch(oxygen_deprivation)
+			if(0 to 10)
+				ischemia_description = "No ischemia"
+			if(10 to 40)
+				ischemia_description = "Localized ischemia"
+			if(40 to INFINITY)
+				ischemia_description = "Widespread ischemic injury"
+		var/flow_description
+		if(pulse)
+			switch(cardiac_output)
+				if(0 to 0.2)
+					flow_description = "minimal blood flow."
+				if(0.2 to 0.5)
+					flow_description = "significantly impaired blood flow."
+				if(0.5 to 0.8)
+					flow_description = "slightly reduced blood flow."
+				if(0.8 to 1)
+					flow_description = "efficient blood flow."
+		else
+			flow_description = "no blood flow."
+		return "[structural_description] [ischemia_description], [flow_description]"
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe cardiac injury."
+		else
+			return "No major cardiac damage."

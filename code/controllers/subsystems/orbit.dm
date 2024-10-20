@@ -2,7 +2,7 @@ SUBSYSTEM_DEF(orbit)
 	name = "Orbit"
 	wait = 10 SECONDS
 	priority = SS_PRIORITY_ORBIT
-	flags = SS_NO_INIT
+	flags = SS_NO_INIT | SS_NO_FIRE
 	runlevels = RUNLEVEL_GAME
 
 	var/typhos_area

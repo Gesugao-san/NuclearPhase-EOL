@@ -394,11 +394,28 @@
 				var/qty = data[1]
 				var/list/argsl = data.Copy()
 				argsl[1] = src
+				if(!SSpersistence.loaded_item_pool) //NO POOL???
+					for(var/i in 1 to qty)
+						new item_path(arglist(argsl))
+					continue
 				for(var/i in 1 to qty)
-					new item_path(arglist(argsl))
+					if(item_path in SSpersistence.loaded_item_pool)
+						new item_path(arglist(argsl))
+						SSpersistence.loaded_item_pool -= item_path
+					else
+						continue
 			else
+				if(!SSpersistence.loaded_item_pool) //NO POOL???
+					for(var/i in 1 to (isnull(data)? 1 : data))
+						new item_path(src)
+					continue
 				for(var/i in 1 to (isnull(data)? 1 : data))
-					new item_path(src)
+					if(item_path in SSpersistence.loaded_item_pool)
+						new item_path(src)
+						SSpersistence.loaded_item_pool -= item_path
+					else
+						continue
+
 		update_icon()
 
 	update_weight()

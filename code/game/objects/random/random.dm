@@ -28,7 +28,12 @@
 		A.pixel_x = pixel_x
 		A.pixel_y = pixel_y
 
+	on_spawn(build_path)
+
 	return A
+
+/obj/random/proc/on_spawn(build_path)
+	return
 
 // Returns an associative list in format path:weight
 /obj/random/proc/spawn_choices()
@@ -1342,3 +1347,15 @@ var/global/list/random_useful_
 		/datum/seed/mushroom = 1,
 		/datum/seed/deterria = 1
 	)
+
+/obj/random/note
+	name = "random note"
+	icon = 'icons/obj/bureaucracy.dmi'
+	icon_state = "paper_words"
+	spawn_nothing_percentage = 25
+
+/obj/random/note/on_spawn(build_path)
+	SSlore.possible_random_notes -= build_path
+
+/obj/random/note/spawn_choices()
+	return SSlore.possible_random_notes

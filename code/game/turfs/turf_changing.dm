@@ -56,8 +56,14 @@
 
 	changing_turf = TRUE
 
+	var/area/old_area = get_area(src)
+	old_area.all_turfs -= src
+
 	qdel(src)
 	. = new N(src)
+
+	var/area/new_area = get_area(src)
+	new_area.all_turfs |= src
 
 	var/turf/W = .
 	W.above =            old_above     // Multiz ref tracking.
@@ -114,7 +120,7 @@
 	// end of lighting stuff
 
 	// we check the var rather than the proc, because area outside values usually shouldn't be set on turfs
-	if(W.is_outside != old_outside) 
+	if(W.is_outside != old_outside)
 		W.set_outside(old_outside, skip_weather_update = TRUE)
 	W.update_weather(force_update_below = W.is_open() != old_is_open)
 
@@ -169,7 +175,7 @@
 	construction_stage = other.construction_stage
 
 	damage = other.damage
-	
+
 	// Do not set directly to other.can_open since it may be in the WALL_OPENING state.
 	if(other.can_open)
 		can_open = WALL_CAN_OPEN

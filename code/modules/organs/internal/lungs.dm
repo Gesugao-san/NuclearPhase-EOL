@@ -62,20 +62,24 @@
 	var/last_breath_efficiency = 1
 	var/datum/composite_sound/breath_sound/soundloop
 
+	var/tidal_volume = 500 // Volume of air inhaled per breath. Changes with fitness skill.
+
 /obj/item/organ/internal/lungs/Destroy()
 	. = ..()
 	qdel(soundloop)
 
 /obj/item/organ/internal/lungs/rejuvenate(ignore_prosthetic_prefs)
 	. = ..()
-	ruptured = FALSE
+	QDEL_NULL(chest_tube)
+	breath_rate = initial(breath_rate)
 
 /obj/item/organ/internal/lungs/Initialize(mapload, material_key, datum/dna/given_dna)
 	. = ..()
 	soundloop = new(_output_atoms=list(src), _our_lungs=src)
-	if(ishuman(owner))
-		spawn(50) //ugly workaround, lungs don't have post initialize proc
-			oxygen_generation += owner.get_skill_value(SKILL_FITNESS) * 0.06
+
+/obj/item/organ/internal/lungs/update_skill_effects()
+	if(owner)
+		tidal_volume = initial(tidal_volume) * owner.get_skill_value(SKILL_FITNESS)
 
 /obj/item/organ/internal/lungs/proc/can_drown()
 	return (is_broken() || !has_gills)
@@ -173,12 +177,11 @@
 
 /obj/item/organ/internal/lungs/proc/get_breath_efficiency()
 	. = 1
-	. -= damage/max_damage
-	. += owner.lying*0.5
 	. -= oxygen_deprivation / OXYGEN_DEPRIVATION_DAMAGE_THRESHOLD / 4
 	return .
 
-//How much oxygen do the lungs produce.
+//How much oxygen do the lungs absorb
+#define OXYGEN_ABSORPTION(damage, max_damage) (1 - damage / max_damage) * 0.25
 //oxygen volume = 1641ml per mole
 #define OXYGEN_PRODUCED(inhaling_gas_moles, breath_rate, inhale_efficiency, ruptured) inhaling_gas_moles * 1641 * breath_rate * inhale_efficiency / (ruptured + 1)
 //How much hemoglobin can be saturated every 2 seconds in the body.
@@ -263,7 +266,7 @@
 	var/failed_breath = failed_inhale || failed_exhale
 
 	if(!failed_breath || forced)
-		owner.add_oxygen(min(OXYGEN_PRODUCED(inhaling_gas_moles, breath_rate, inhale_efficiency, ruptured)), MAX_OXYGEN_DELTA(owner.mcv, owner.normal_oxygen_capacity))
+		owner.add_oxygen(min(OXYGEN_PRODUCED(inhaling_gas_moles, breath_rate, inhale_efficiency, ruptured) * OXYGEN_ABSORPTION(damage, max_damage), MAX_OXYGEN_DELTA(owner.mcv, owner.normal_oxygen_capacity)))
 		last_successful_breath = world.time
 		owner.adjustOxyLoss(-5 * inhale_efficiency)
 		oxygen_starve(inhaling_ratio * -10)
@@ -278,6 +281,7 @@
 		owner.oxygen_alert = 0
 	return failed_breath
 
+#undef OXYGEN_ABSORPTION
 #undef OXYGEN_PRODUCED
 #undef MAX_OXYGEN_DELTA
 
@@ -394,3 +398,43 @@
 /obj/item/organ/internal/lungs/gills
 	name = "lungs and gills"
 	has_gills = TRUE
+
+/obj/item/organ/internal/lungs/scan(advanced)
+	if(advanced)
+		var/structural_description
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				structural_description = "Lungs are fully functional with no abnormalities."
+			if(0.1 to 0.4)
+				structural_description = "Mild pulmonary injury. Localized damage to lung tissue or airways, with reduced gas exchange in affected areas."
+			if(0.4 to 0.8)
+				structural_description = "Severe pulmonary injury. Extensive lung tissue damage."
+			if(0.8 to 1)
+				structural_description = "Critical lung failure. Widespread and irreversible destruction of lung tissue, with minimal to no gas exchange occurring."
+		var/ischemia_description
+		switch(oxygen_deprivation)
+			if(0 to 10)
+				ischemia_description = "No ischemia"
+			if(10 to 40)
+				ischemia_description = "Localized ischemia"
+			if(40 to INFINITY)
+				ischemia_description = "Widespread ischemia"
+		var/efficiency_description
+		if(breath_rate)
+			switch(last_breath_efficiency)
+				if(0 to 0.2)
+					efficiency_description = "respiratory failure."
+				if(0.2 to 0.5)
+					efficiency_description = "impaired respiration."
+				if(0.5 to 0.8)
+					efficiency_description = "slightly impaired respiration."
+				if(0.8 to 3)
+					efficiency_description = "efficient respiration"
+		else
+			efficiency_description = "respiratory failure."
+		return "[structural_description] [ischemia_description], [efficiency_description]"
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe lung injury."
+		else
+			return "No major lung damage."

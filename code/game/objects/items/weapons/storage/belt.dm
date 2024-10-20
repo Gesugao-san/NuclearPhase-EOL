@@ -431,6 +431,12 @@
 	.=..()
 	LAZYSET(slowdown_per_slot, slot_belt_str, 1)
 
+/obj/item/storage/belt/holster/security/tactical/full
+	startswith = list(
+		/obj/item/ammo_magazine/c6p8x51/fmj = 3,
+		/obj/item/telebaton = 1
+	)
+
 /obj/item/storage/belt/waistpack
 	name = "waist pack"
 	desc = "A small bag designed to be worn on the waist. May make your butt look big."

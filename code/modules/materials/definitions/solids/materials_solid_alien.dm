@@ -36,6 +36,12 @@
 	narcosis = 0.15
 	toxicity = 1.5
 	radioactivity = 50
+	chilling_point = 190
+	chilling_message = "crumples into a very fine dust."
+	chilling_products = list(
+		/decl/material/solid/static_crystal/inhibited = 0.81,
+		/decl/material/solid/silicon = 0.19
+	)
 	shard_type = SHARD_SHARD
 	shard_can_repair = 0
 	flags = MAT_FLAG_BRITTLE
@@ -45,12 +51,27 @@
 	weight = MAT_VALUE_VERY_LIGHT
 	hardness = MAT_VALUE_VERY_HARD
 	reflectiveness = MAT_VALUE_VERY_SHINY
-	color = COLOR_LIME
+	color = COLOR_SREC
+
+/decl/material/solid/static_crystal/affect_blood(mob/living/carbon/human/M, removed, datum/reagents/holder)
+	. = ..()
+	M.srec_dose += removed*1.3
+
+/decl/material/solid/static_crystal/inhibited
+	name = "inhibited SREC"
+	uid = "inhibited_polycrystal"
+	codex_name = "inhibited SREC"
+	lore_text = "An agressive silicon lifeform crystal, having now lost its spreading abilities."
+	toxicity = 0
+	radioactivity = 0
+	chilling_point = null
+	chilling_message = null
+	chilling_products = null
 
 /decl/material/solid/static_crystal/antimatter
 	name = "SREC-A"
 	uid = "antimatter_polycrystal"
-	combustion_energy = 810801000000
+	combustion_energy = 810801000
 	neutron_interactions = list(
 		"slow" = list(
 			INTERACTION_SCATTER = 0.1,
@@ -63,7 +84,7 @@
 			INTERACTION_FISSION = 10000
 		)
 	)
-	fission_energy = 810801000000
+	fission_energy = 810801000
 	fission_products = list(
 		/decl/material/solid/static_crystal = 0.1
 	)
@@ -73,3 +94,4 @@
 	fuel_value = 10
 	ignition_point = TCMB
 	molar_mass = 0.004 //twice that of hydrogen
+	color = COLOR_SREC_ALPHA

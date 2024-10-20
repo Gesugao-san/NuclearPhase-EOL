@@ -240,6 +240,17 @@
 /area/serenity/shelter/command/commcenter
 	name = "Comm Center"
 
+/area/serenity/shelter/it_operations
+	name = "IT Operations"
+	icon_state = "ai_foyer"
+
+/area/serenity/shelter/it_operations/faid
+	name = "FAID Office"
+	icon_state = "heads_sr"
+
+/area/serenity/shelter/it_operations/server
+	name = "Server Room"
+	icon_state = "ai_server"
 
 /area/serenity/shelter/cargo/warehouse
 	name = "Main Warehouse"

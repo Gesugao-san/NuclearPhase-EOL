@@ -39,7 +39,8 @@ var/global/list/areas = list()
 	var/show_starlight =      FALSE
 
 	var/obj/machinery/power/apc/apc
-	var/list/all_doors		//Added by Strumpetplaya - Alarm Change - Contains a list of doors adjacent to this area
+	var/list/all_turfs = list() // A list of all turfs in this area
+	var/list/all_doors		    //Added by Strumpetplaya - Alarm Change - Contains a list of doors adjacent to this area
 	var/list/ambience = list('sound/ambience/ambigen1.ogg','sound/ambience/ambigen3.ogg','sound/ambience/ambigen4.ogg','sound/ambience/ambigen5.ogg','sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg','sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg','sound/ambience/ambigen12.ogg','sound/ambience/ambigen14.ogg')
 	var/list/forced_ambience
 	var/ambience_cooldown = 600
@@ -116,6 +117,8 @@ var/global/list/areas = list()
 	var/area/old_area = get_area(T)
 	if(old_area == A)
 		return
+	old_area.all_turfs -= T
+	A.all_turfs |= T
 	A.contents.Add(T)
 	if(old_area)
 		old_area.Exited(T, A)

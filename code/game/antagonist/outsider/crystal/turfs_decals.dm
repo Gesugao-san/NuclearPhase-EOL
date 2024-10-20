@@ -1,18 +1,19 @@
 /obj/effect/crystal_growth //stepping barefoot will be PUNISHED
-	name = "crystal covered floor"
+	name = "crystal growth"
 	desc = "These crystals are terrifying in their perfect placement patterns."
 	layer = CATWALK_LAYER
+	color = COLOR_SREC
 	anchored = 1
 	icon = 'icons/turf/mining_decals.dmi'
 	icon_state = "crystal"
-	var/transmissibility = 3
+	var/transmissibility = 1
 
 /obj/effect/crystal_growth/Process()
 	try_expand()
 
 /obj/effect/crystal_growth/Initialize()
 	. = ..()
-	set_light(1, 1, COLOR_LIME)
+	set_light(1, 1, COLOR_SREC_ACTIVE)
 	var/area/A = get_area(loc)
 	A.background_radiation += 2.1
 	START_PROCESSING(SSblob, src)
@@ -26,6 +27,8 @@
 
 /obj/effect/crystal_growth/meat
 	desc = "These crystals are terrifying in their perfect placement patterns. There are pieces of flesh lodged inbetween individual shards..."
+	color = COLOR_SREC_ACTIVE
+	transmissibility = 3
 
 /obj/effect/crystal_growth/attackby(obj/item/I, mob/user)
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
@@ -139,10 +142,11 @@
 	var/shatter_prob = 15
 	icon = 'icons/turf/mining_decals.dmi'
 	icon_state = "crystal_wall"
+	color = COLOR_SREC
 
 /obj/effect/crystal_wall/New(loc, ...)
 	. = ..()
-	set_light(2, 1, COLOR_LIME)
+	set_light(2, 1, COLOR_SREC_ALPHA)
 	var/turf/T = get_turf(src)
 	for(var/mob/living/L in T)
 		if(L.stat == DEAD)

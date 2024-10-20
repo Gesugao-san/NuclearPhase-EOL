@@ -1,4 +1,4 @@
-/decl/whitelist/medical_low = infringementofreality;kardagan;zertes;Alpha-017;Burbonchik;Hvostosmisl
+/decl/whitelist/medical_low = infringementofreality;kardagan;zertes;Alpha-017;Burbonchik;Hvostosmisl;narko_traffic_526
 /decl/whitelist/medical_high = infringementofreality;zertes
 /decl/whitelist/engineering_low = infringementofreality;Alpha-017;Burbonchik;MintMetal;Gesugao-san
 /decl/whitelist/engineering_high = infringementofreality;Alpha-017;Burbonchik;MintMetal

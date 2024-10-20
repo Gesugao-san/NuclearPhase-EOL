@@ -27,16 +27,14 @@
 		return "N/A"
 
 /datum/extension/interactive/os/proc/get_network_status(var/specific_action = 0)
-	return 3 //temporary until we get networks working
-
-	/*var/obj/item/stock_parts/computer/network_card/network_card = get_component(PART_NETWORK)
+	var/obj/item/stock_parts/computer/network_card/network_card = get_component(PART_NETWORK)
 	if(network_card)
 		var/signal_power_level = NETWORK_SPEED_BASE * network_card.get_signal(specific_action)
 		if(signal_power_level > 0)
 			signal_power_level = round(Clamp(signal_power_level, 1, 3))
 		return signal_power_level
 	else
-		return 0*/
+		return 0
 
 /datum/extension/interactive/os/proc/get_inserted_id()
 	var/obj/item/stock_parts/computer/card_slot/card_slot = get_component(PART_CARD)

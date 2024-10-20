@@ -71,3 +71,20 @@
 //We got it covered in Process with more detailed thing
 /obj/item/organ/internal/liver/handle_regeneration()
 	return
+
+/obj/item/organ/internal/liver/scan(advanced)
+	if(advanced)
+		switch(damage/max_damage)
+			if(0 to 0.1)
+				return "No hepatic abnormalities. Liver function is normal, with appropriate enzyme production, detoxification, and metabolic processes intact."
+			if(0.1 to 0.4)
+				return "Mild hepatic injury. Some hepatocellular damage observed, with mildly elevated liver enzymes. Liver function may be moderately impaired, but regeneration is possible with proper care."
+			if(0.4 to 0.8)
+				return "Severe hepatic damage. Significant destruction of liver cells and reduced hepatic function."
+			if(0.8 to 1)
+				return "Critical hepatic failure. Extensive necrosis and fibrosis of liver tissue. The liver is unable to perform essential metabolic, detoxification, or synthetic functions. Liver transplantation is necessary for survival."
+	else
+		if(damage > max_damage * 0.5)
+			return "Severe liver injury."
+		else
+			return "No major liver damage."
