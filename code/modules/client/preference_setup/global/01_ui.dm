@@ -1,7 +1,7 @@
 var/global/list/valid_icon_sizes = list(32, 48, 64, 96, 128)
 
 /datum/preferences
-	var/clientfps = 0
+	var/clientfps = 100
 	var/ooccolor = "#010000" //Whatever this is set to acts as 'reset' color and is thus unusable as an actual custom color
 	var/icon_size = 64
 	var/UI_style = "Midnight"

@@ -715,7 +715,7 @@ var/decl/material/boil_mat = null
 
 /decl/material/proc/affect_overdose(var/mob/living/M, var/datum/reagents/holder) // Overdose effect. Doesn't happen instantly.
 	M.add_chemical_effect(CE_TOXIN, 1)
-	M.adjustToxLoss(2.5)
+	M.adjustToxLoss(1.4)
 
 /decl/material/proc/initialize_data(var/newdata) // Called when the reagent is created.
 	if(newdata)

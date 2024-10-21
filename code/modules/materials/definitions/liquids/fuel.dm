@@ -26,6 +26,9 @@
 	fuel_value = 2
 	gas_flags = XGM_GAS_FUEL
 	combustion_energy = 537600
+	combustion_activation_energy = 48500
+	oxidizer_to_fuel_ratio = 12.5
+	combustion_products = list(/decl/material/gas/oxygen = /decl/material/gas/carbon_dioxide)
 	burn_product = /decl/material/gas/carbon_monoxide
 
 /decl/material/liquid/biodiesel
@@ -42,8 +45,8 @@
 	melting_point = -35 CELSIUS
 	latent_heat = 5000
 	gas_condensation_point = 315 CELSIUS
-	gas_symbol_html = "C<sub>17<sub>H<sub>34<sub>O<sub>2<sub>"
-	gas_symbol = "C17H34O2"
+	gas_symbol_html = "C<sub>17<sub>H<sub>36<sub>"
+	gas_symbol = "C17H36"
 	scannable = 1
 	metabolism = REM
 	taste_description = "plant activism"
@@ -56,4 +59,7 @@
 	fuel_value = 1.8
 	gas_flags = XGM_GAS_FUEL
 	combustion_energy = 517600
+	combustion_activation_energy = 58600
+	oxidizer_to_fuel_ratio = 3
+	combustion_products = list(/decl/material/gas/oxygen = /decl/material/gas/carbon_dioxide)
 	burn_product = /decl/material/gas/carbon_dioxide

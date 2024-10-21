@@ -70,12 +70,12 @@
 
 /decl/config/num/iterative_explosives_z_threshold
 	uid = "iterative_explosives_z_threshold"
-	default_value = 10
+	default_value = 700
 	desc = "The power of explosion required for it to cross Z-levels."
 
 /decl/config/num/iterative_explosives_z_multiplier
 	uid = "iterative_explosives_z_multiplier"
-	default_value = 0.75
+	default_value = 0.35
 	rounding = 0.01
 	desc = "What to multiply power by when crossing Z-levels."
 

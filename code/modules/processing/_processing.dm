@@ -95,7 +95,16 @@
 /obj/machinery/processor/proc/start_processing(decl/processing_recipe/selected_recipe, mob/user)
 	if(!operating && is_functioning())
 		if(!selected_recipe.can_happen(src))
-			to_chat(user, SPAN_NOTICE("Prerequisites for the selected operation not met."))
+			to_chat(user, SPAN_NOTICE("Prerequisites for the selected operation not met. The recipe needs:"))
+			for(var/item_path in selected_recipe.required_items)
+				var/obj/item/I = GET_DECL(item_path)
+				to_chat(user, SPAN_NOTICE(I.name))
+			for(var/reagent_path in selected_recipe.required_reagents)
+				var/decl/material/mat = GET_DECL(reagent_path)
+				to_chat(user, "[selected_recipe.required_reagents[reagent_path]]ml [SPAN_NOTICE(mat.name)]")
+			for(var/gas_path in selected_recipe.required_gas)
+				var/decl/material/mat = GET_DECL(gas_path)
+				to_chat(user, "[floor(selected_recipe.required_gas[gas_path] * mat.molar_volume)]ml [SPAN_NOTICE(mat.name)]")
 			return
 		operating = TRUE
 		current_recipe = selected_recipe

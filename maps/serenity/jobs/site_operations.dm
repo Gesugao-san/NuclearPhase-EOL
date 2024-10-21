@@ -23,6 +23,30 @@
 	supervisors = "the Chief Operations Officer and Chief Security Officer"
 	selection_color = "#a52041"
 	outfit_type = /decl/hierarchy/outfit/job/faid
+	access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_ai_upload,
+		access_robotics,
+		access_network,
+		access_tcomsat
+	)
+	minimal_access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_ai_upload,
+		access_robotics,
+		access_network,
+		access_tcomsat
+	)
 	skill_points = 38
 	required_whitelists = list(/decl/whitelist/security_management, /decl/whitelist/engineering_low)
 
@@ -32,6 +56,24 @@
 	supervisors = "the Chief Operations Officer and Reactor Operations Director"
 	selection_color = "#a52041"
 	outfit_type = /decl/hierarchy/outfit/job/engineering/chief_engineer
+	access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_engine_equip
+	)
+	minimal_access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_engine_equip
+	)
 	skill_points = 35
 
 /datum/job/site_operations/ss
@@ -40,6 +82,24 @@
 	supervisors = "the Chief Operations Officer"
 	selection_color = "#a52041"
 	outfit_type = /decl/hierarchy/outfit/job/sdd
+	access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_engine_equip
+	)
+	minimal_access = list(
+		access_eva,
+		access_tech_storage,
+		access_maint_tunnels,
+		access_external_airlocks,
+		access_construction,
+		access_emergency_storage,
+		access_engine_equip
+	)
 	skill_points = 35
 	min_skill = list(
 		SKILL_LITERACY = SKILL_ADEPT,

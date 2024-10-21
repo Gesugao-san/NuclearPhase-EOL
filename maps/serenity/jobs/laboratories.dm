@@ -71,7 +71,11 @@
 		access_lab_bravo,
 		access_lab_charlie
 	)
-	minimal_access = list(access_rd,
+	minimal_access = list(
+		access_medical,
+		access_medical_equip,
+		access_surgery,
+		access_rd,
 		access_bridge,
 		access_tox,
 		access_morgue,
@@ -138,7 +142,9 @@
 		access_lab_alpha,
 		access_lab_bravo
 	)
-	minimal_access = list(access_rd,
+	minimal_access = list(
+		access_rd,
+		access_medical,
 		access_bridge,
 		access_tox,
 		access_morgue,
@@ -214,6 +220,7 @@
 		access_medical,
 		access_medical_equip,
 		access_morgue,
+		access_chemistry,
 		access_eva,
 		access_maint_tunnels,
 		access_external_airlocks,

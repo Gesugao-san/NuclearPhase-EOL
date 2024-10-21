@@ -446,7 +446,7 @@
 	combustion_activation_energy = 75300
 	oxidizer_to_fuel_ratio = 0.5
 	burn_product = /decl/material/liquid/water
-	combustion_products = list(/decl/material/gas/oxygen = /decl/material/liquid/water)
+	combustion_products = list(/decl/material/gas/oxygen = /decl/material/liquid/water, /decl/material/gas/chlorine = /decl/material/liquid/acid/hydrochloric)
 	dissolves_into = list(
 		/decl/material/liquid/fuel/hydrazine = 1
 	)

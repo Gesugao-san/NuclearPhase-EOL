@@ -18,38 +18,22 @@
 	if(!owner)
 		return
 
+	var/health_coefficient = 1 - (damage / max_damage)
+
 	if(owner.get_blood_perfusion() < 0.8)
 		var/pressure_difference = 100 - owner.meanpressure
-		var/secretion_efficiency_coeff = max(0.01, 1 - (damage / max_damage) - (oxygen_deprivation / 100))
+		var/secretion_efficiency_coeff = max(0.01, health_coefficient - (oxygen_deprivation / 100))
 		if(pressure_difference > 0)
 			owner.bloodstr.add_reagent_max(/decl/material/liquid/adrenaline, pressure_difference * 0.004 * secretion_efficiency_coeff, pressure_difference * 0.0013)
 			owner.bloodstr.add_reagent_max(/decl/material/liquid/noradrenaline, pressure_difference * 0.002 * secretion_efficiency_coeff, pressure_difference * 0.007)
+		return
 
-	// Coffee is really bad for you with busted kidneys.
-	// This should probably be expanded in some way, but fucked if I know
-	// what else kidneys can process in our reagent list.
-	if(REAGENT_VOLUME(owner.reagents, /decl/material/liquid/drink/coffee))
-		if(is_bruised())
-			owner.adjustToxLoss(0.1)
-		else if(is_broken())
-			owner.adjustToxLoss(0.3)
+	if(is_bruised() || is_broken())
+		reagents.add_reagent_max(/decl/material/solid/potassium, damage * 0.01, 10)
+		return
 
-	if(is_bruised())
-		if(prob(5) && REAGENT_VOLUME(reagents, /decl/material/solid/potassium) < 5)
-			reagents.add_reagent(/decl/material/solid/potassium, REM*5)
-	if(is_broken())
-		if(REAGENT_VOLUME(owner.reagents, /decl/material/solid/potassium) < 15)
-			owner.reagents.add_reagent(/decl/material/solid/potassium, REM*2)
-
-	//If your kidneys aren't working, your body's going to have a hard time cleaning your blood.
-	if(!GET_CHEMICAL_EFFECT(owner, CE_ANTITOX))
-		if(prob(33))
-			if(is_broken())
-				owner.adjustToxLoss(0.2)
-			if(status & ORGAN_DEAD)
-				owner.adjustToxLoss(0.3)
-			else
-				owner.adjustToxLoss(-0.1)
+	owner.adjustToxLoss(-1 * health_coefficient)
+	reagents.remove_reagent(/decl/material/solid/potassium, 0.5 * health_coefficient)
 
 /obj/item/organ/internal/kidneys/scan(advanced)
 	if(advanced)
@@ -64,6 +48,6 @@
 				return "Critical renal failure. Extensive and irreversible damage to both kidneys, with minimal to no filtration of waste products. Dialysis or kidney transplantation required to sustain life."
 	else
 		if(damage > max_damage * 0.5)
-			return "Severe renal injury."
+			return "Severe renal damage."
 		else
 			return "No major renal damage."

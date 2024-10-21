@@ -90,6 +90,16 @@
 	var/obj/item/organ/internal/heart/cur_heart = GET_INTERNAL_ORGAN(holder, BP_HEART)
 	cur_heart.damage = cur_heart.max_damage * 0.3
 
+/decl/aspect/perk/negative/kidney_failure
+	name = "Kidney Failure"
+	desc = "Your kidneys are nonfunctional. You need periodic dialysis(every 2 hours) and are more susceptible to toxins."
+	aspect_cost = -5
+
+/decl/aspect/perk/negative/kidney_failure/apply(mob/living/carbon/human/holder)
+	. = ..()
+	var/obj/item/organ/internal/kidneys = GET_INTERNAL_ORGAN(holder, BP_KIDNEYS)
+	kidneys.die()
+
 /decl/aspect/perk/negative/srec_infection
 	name = "SREC Infection"
 	desc = "An infection by Self-Replicating Electrotrophic Crystals. \

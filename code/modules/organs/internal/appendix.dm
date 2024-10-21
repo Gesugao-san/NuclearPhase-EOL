@@ -40,3 +40,16 @@
 				E.sever_artery()
 				E.germ_level = max(INFECTION_LEVEL_TWO, E.germ_level)
 				owner.adjustToxLoss(90)
+
+/obj/item/organ/internal/appendix/scan(advanced)
+	if(advanced)
+		switch(inflamed)
+			if(0 to 200)
+				return "Inflamed."
+			if(200 to 400)
+				return "Severely inflamed."
+			if(400 to 1000)
+				return "Critically inflamed."
+	else
+		if(inflamed)
+			return "Inflamed."

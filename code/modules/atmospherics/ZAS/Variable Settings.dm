@@ -4,7 +4,7 @@ var/global/vs_control/vsc = new
 	var/fire_consuption_rate = 0.1
 	var/fire_consuption_rate_NAME = "Fire - Air Consumption Ratio"
 	var/fire_consuption_rate_DESC = "Ratio of air removed and combusted per tick."
-	var/fluid_fire_consuption_rate = 0.05
+	var/fluid_fire_consuption_rate = 0.03
 
 	var/fire_firelevel_multiplier = 25
 	var/fire_firelevel_multiplier_NAME = "Fire - Firelevel Constant"

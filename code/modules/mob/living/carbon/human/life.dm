@@ -286,20 +286,22 @@
 					cur_heart.instability += 1000
 					cur_brain.take_internal_damage(1)
 
-//An infection by Self-Replicating Electrotrophic Crystals.
-//These silicon-like crystals use electricity for metabolism.
-//The disease progression to the lethal stage may take dozens of years, but any electrical shocks strongly exacerbate it.
-//SREC prevents microperfusion in capillary vessels, disrupting the delivery of oxygen to vital parts of the body.
-//In very high doses it disrupts biochemistry, causing widespread tissue damage with septic shock.
+// An infection by Self-Replicating Electrotrophic Crystals.
+// These silicon-like crystals use electricity for metabolism.
+// The disease progression to the lethal stage may take dozens of years, but any electrical shocks strongly exacerbate it.
+// SREC prevents microperfusion in capillary vessels, disrupting the delivery of oxygen to vital parts of the body.
+// In very high doses it disrupts biochemistry, causing widespread tissue damage with septic shock.
 
-//Our SREC dose is defined in mcg/ml.
-//Infections below below 80 mcg/ml are considered benign and won't show any symptoms.
-//80-120 mcg/ml shows disrupted microperfusion: weakened vision, occasional tickling in the extremities and slight skin paleness.
-//120-140 mcg/ml presents weakness, the eyes lose color, outer limbs get reduced pain sensation. No appetite.
-//140-160 mcg/ml is where flu-like symptoms appear as the immune system responds to hypoperfusion in outer tissues. Heighetened body temp and weakness.
-//160-180 mcg/ml. The immune system is totally inhibited. The eyes develop a greenish tinge and partial paralysis of outer limbs may occur.
-//180-200 mcg/ml. The dose can be much higher, but this is where things likely end. The slightest electric shock can cause a total circulatory collapse.
-//>200 mcg/ml. Survival is extremely unlikely without medication as organ failure begins to set in.
+// Our SREC dose is defined in mcg/ml.
+// Infections below below 80 mcg/ml are considered benign and won't show any symptoms.
+// 80-120 mcg/ml shows disrupted microperfusion: weakened vision, occasional tickling in the extremities and slight skin paleness.
+// 120-140 mcg/ml presents weakness, the eyes lose color, outer limbs get reduced pain sensation. No appetite.
+// 140-160 mcg/ml is where flu-like symptoms appear as the immune system responds to hypoperfusion in outer tissues. Heighetened body temp and weakness.
+// 160-180 mcg/ml. The immune system is totally inhibited. The eyes develop a greenish tinge and partial paralysis of outer limbs may occur.
+// 180-200 mcg/ml. The dose can be much higher, but this is where things likely end. The slightest electric shock can cause a total circulatory collapse.
+// >200 mcg/ml. Survival is extremely unlikely without medication as organ failure begins to set in.
+// From this point, medication is mandatory for survival. Symptoms don't really change, just their intensity.
+// >700 mcg/ml. Late stage of infection. Limbs crystallize.
 /mob/living/carbon/human/proc/handle_srec()
 	var/inhibition_factor = GET_CHEMICAL_EFFECT(src, CE_SREC) + 1
 	if(srec_dose > 160 && inhibition_factor < 1.1) //Replicate
@@ -308,8 +310,8 @@
 	if(srec_dose > 80)
 		var/obj/item/organ/internal/heart/cur_heart = GET_INTERNAL_ORGAN(src, BP_HEART)
 		var/dose_sqrt = sqrt(srec_dose) / inhibition_factor
-		cur_heart.cardiac_output_modifiers["SREC"] = 1 - (dose_sqrt * 0.003)
-		cur_heart.stability_modifiers["SREC"] = -1.25 * (dose_sqrt)
+		cur_heart.cardiac_output_modifiers["SREC"] = 1 - (dose_sqrt * 0.003 / inhibition_factor)
+		cur_heart.stability_modifiers["SREC"] = -1.25 * (dose_sqrt / inhibition_factor)
 		if(client)
 			change_skin_tone(round(client.prefs.skin_tone * 1 - dose_sqrt * 0.003))
 		to_chat_cooldown(src, SPAN_INFO("Your skin tickles.."), "srectickle", rand(2 MINUTES, 5 MINUTES * inhibition_factor))
@@ -340,10 +342,39 @@
 		adjustHalLoss(-400)
 		add_chemical_effect(CE_PAINKILLER, 400)
 		to_chat_cooldown(src, SPAN_DANGER(pick("Tiny crystals crawl under your skin.", "You feel something churning up inside.")), "srecsick", rand(4 MINUTES, 10 MINUTES * inhibition_factor))
+	if(srec_dose > 700)
+		var/list/limbs = get_external_organs()
+		var/list/shuffled_limbs = LAZYLEN(limbs) ? shuffle(limbs.Copy()) : null
+		for(var/obj/item/organ/external/E in shuffled_limbs)
+			if(BP_IS_PROSTHETIC(E))
+				continue
+
+			if(BP_IS_CRYSTAL(E))
+				if((E.brute_dam + E.burn_dam) > 0)
+					if(prob(35))
+						to_chat(src, SPAN_NOTICE("You feel a crawling sensation as fresh crystal grows over your [E.name]."))
+					E.heal_damage(rand(5,8), rand(5,8))
+					break
+				if(BP_IS_BRITTLE(E))
+					E.status &= ~ORGAN_BRITTLE
+					break
+			else if(E.organ_tag != BP_CHEST && E.organ_tag != BP_GROIN && prob(15))
+				to_chat(src, SPAN_DANGER("Your [E.name] is being lacerated from within!"))
+				if(E.can_feel_pain())
+					emote("scream")
+				if(prob(25))
+					for(var/i = 1 to rand(3,5))
+						new /obj/item/shard(get_turf(E), /decl/material/solid/static_crystal)
+					E.dismember(0, DISMEMBER_METHOD_BLUNT)
+				else
+					E.take_external_damage(rand(20,30), 0)
+					BP_SET_CRYSTAL(E)
+					E.status |= ORGAN_BRITTLE
+				break
 	if(srec_dose > 1000) //we explodeee
 		var/turf/T = get_turf(src)
 		gib()
-		new /obj/effect/crystal_growth(T)
+		new /obj/effect/crystal_growth/meat(T)
 		new /obj/effect/crystal_wall(T)
 
 /mob/living/carbon/human/handle_chemical_smoke(var/datum/gas_mixture/environment)
@@ -914,8 +945,9 @@
 			vomit_score += I.damage
 		else if (should_have_organ(tag))
 			vomit_score += 45
-	if(has_chemical_effect(CE_TOXIN, 1) || radiation)
-		vomit_score += 0.2 * getToxLoss()
+	var/toxloss = getToxLoss()
+	if(toxloss > 100)
+		vomit_score += 0.15 * toxloss
 	if(has_chemical_effect(CE_ALCOHOL_TOXIC, 1))
 		vomit_score += 10 * GET_CHEMICAL_EFFECT(src, CE_ALCOHOL_TOXIC)
 	if(has_chemical_effect(CE_ALCOHOL, 1))
